@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1090" viewBox="0 0 960 1090">
+<title>Z7PRO 方案11 固定梁端 · 厂商概念沟通图</title>
+<defs><marker id="tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#cb6741"/></marker></defs>
+<style>text{font-family:'Droid Sans Fallback','PingFang SC','Microsoft YaHei',sans-serif;fill:#153b40;font-size:21px}.title{font-size:38px;font-weight:bold}.sub{font-size:19px}.head{font-size:26px;font-weight:bold}.mini{font-size:17px}.white{fill:white}.light{fill:#c4e5df}.line{fill:none;stroke:#465e64;stroke-width:2}.dim{stroke:#bb602f;stroke-width:2;fill:none}.d{fill:#a34c28}.foot{fill:#168678}.frame{fill:#c6d4d3;stroke:#627b7d;stroke-width:2}</style>
+<rect width="960" height="1090" fill="#f3f4ef"/>
+<rect width="960" height="135" fill="#123c40"/>
+<text x="32" y="34" class="light sub">立久佳 Z7PRO　/　方案 11　/　概念稿</text>
+<text x="32" y="85" class="white title">固定梁端要伸到哪里？</text>
+<text x="34" y="117" class="white sub">本轮请厂商画出两个姿态，圈出接地点，帮助选择固定版或旋转版。</text>
+
+<rect x="20" y="150" width="920" height="232" rx="13" fill="white"/>
+<text x="37" y="188" class="head">01　平放看机头</text>
+<text x="42" y="222" class="mini">← 机头前方</text>
+<rect x="196" y="238" width="230" height="40" class="frame"/><path d="M254 239L242 206" stroke="#8ba3a4" stroke-width="13"/>
+<circle cx="254" cy="254" r="13" fill="#52696b"/><path d="M311 279L157 296" stroke="#77878a" stroke-width="10"/>
+<circle cx="148" cy="302" r="18" fill="#384a50"/><circle cx="148" cy="302" r="6" fill="#b0bfbc"/>
+<path d="M116 246h80m-80 -4v8m80 -8v8" class="dim"/><text x="148" y="241" class="mini d">A</text><path d="M110 253v20m-4 -20h8m-8 20h8" class="dim"/><text x="89" y="271" class="mini d">C</text><rect x="116" y="253" width="80" height="20" rx="5" class="foot"/><path d="M196 224V352 M130 321V352" stroke="#bd7950" stroke-dasharray="4 4"/>
+<path d="M130 344H196m-66 -5v10m66 -10v10" class="dim"/><text x="100" y="372" class="mini d">现款轮缘前伸 60 mm</text>
+<text x="470" y="235">请给一张机头侧照或侧视图。</text>
+<text x="470" y="270" class="sub">标出梁端、立柱转轴、H 架轮缘和电机盖。</text>
+<text x="470" y="312" class="sub">画上绿色固定端座，标 A 前伸量、C 根部厚度。</text>
+<text x="470" y="346" class="sub">据此看端座能装在哪，平放与爬坡是否碰地。</text>
+
+<rect x="20" y="395" width="920" height="320" rx="13" fill="white"/>
+<text x="37" y="435" class="head">02　竖放看落点</text>
+<rect x="66" y="460" width="15" height="198" fill="#cfd6d2"/><text x="39" y="550" class="mini">墙</text>
+<rect x="136" y="461" width="45" height="168" class="frame"/>
+<rect x="130" y="461" width="6" height="168" fill="#364b51"/>
+<rect x="182" y="563" width="27" height="59" rx="5" fill="#8d9e9c"/>
+<path d="M132 627H222V645H132Z" class="foot"/>
+<path d="M134 648h17m53 0h17" stroke="#c0683d" stroke-width="5"/>
+<path d="M78 651H384" class="line"/>
+<circle cx="165" cy="522" r="7" fill="#c0683d"/>
+<path d="M165 529V650" stroke="#c0683d" stroke-dasharray="4 4"/>
+<path d="M141 488h73" class="dim" marker-end="url(#tip)"/>
+<text x="229" y="495" class="mini d">向房间推</text>
+<text x="228" y="531" class="mini">虚线：重心投影示意</text>
+<path d="M225 527H176" class="line"/>
+<path d="M134 674H221m-87 -6v12m87 -12v12" class="dim"/>
+<text x="79" y="704" class="mini d">B　有效接地深度</text>
+<text x="470" y="480">跑板正面靠墙，机底朝房间。</text>
+<text x="470" y="516" class="sub">圈出实际压地的墙侧和房间侧边缘。</text>
+<text x="470" y="552" class="sub">把重心大致位置投到地上，分别看两侧余量。</text>
+<text x="470" y="600" class="sub">往哪边推，就看重心投影离那边缘还有多远。</text>
+<text x="470" y="634" class="sub">推的位置越高，同样的推力越容易让机器翻倒。</text>
+<text x="470" y="676" class="mini d">若重心未知，请标“待估”，先比较短、长两版。</text>
+
+<rect x="20" y="728" width="920" height="224" rx="13" fill="white"/>
+<text x="37" y="770" class="head">03　用同一张底图选方向</text>
+<rect x="38" y="793" width="425" height="137" rx="9" fill="#e7f2ee"/>
+<text x="55" y="825" class="head">优先深化固定版</text>
+<text x="55" y="861" class="sub">接地点有余量，端座能装下，</text>
+<text x="55" y="894" class="sub">平放、爬坡及贴墙均有空间。</text>
+<rect x="481" y="793" width="439" height="137" rx="9" fill="#f9ede2"/>
+<text x="499" y="825" class="head">并排比较 180° 旋转版</text>
+<text x="499" y="861" class="sub">固定脚做短了，支撑余量小；做长了，</text>
+<text x="499" y="894" class="sub">碰地、占墙距或挤占机构空间。</text>
+<rect x="20" y="966" width="920" height="104" rx="13" fill="#163f43"/>
+<text x="40" y="1006" class="white head">厂商回传　两张标注图 ＋ 一句取舍理由</text>
+<text x="40" y="1042" class="light sub">A、B、C 可填约数或范围。示意图不按比例，稳定性与承载留待样机阶段确认。</text>
+</svg>

@@ -1,8 +1,10 @@
 # 立久佳 Z7PRO 升级设计 · 项目交接
 
-截至 2026-11-03（北京时间），项目已完成首轮调研和支撑方案筛选，进入机头收纳底座的尺寸验证准备阶段。整机工程尺寸、稳定性、锁止与样机均未定版。
+截至 2026-11-03（北京时间），项目已完成首轮调研和支撑方案筛选，**当前处于概念稿阶段，直到用户明确更新状态。** 本轮用标注图比较机头底座的轮廓与空间。整机工程尺寸、稳定性、锁止与样机均未定版。
 
 **接手入口**：[用户 brief 原话](docs/user-brief.md) · [本轮对话归档与纠正记录](docs/conversation.md) · [逐项版本与下一步](docs/roadmap.md) · [13 个方案的原图、参考照片和渲染](https://calfnai.github.io/lijiujia-z7pro-model/research/) · [整机概念模型](https://calfnai.github.io/lijiujia-z7pro-model/) · [居中轴脚座互动模型](https://calfnai.github.io/lijiujia-z7pro-model/foot-study.html#axis=y&part=whole&p=-40&a=0&b=180&s=0)
+
+[给厂商的一页工作流程图](docs/brief/fixed-foot.svg) · [矢量原图](docs/brief/fixed-foot.svg)
 
 ## 当前判断
 
@@ -15,6 +17,6 @@
 
 在 Codex App 中打开本仓库并同步 main，在 ChatGPT Web 中提供本 README 链接。可直接说：
 
-> 继续立久佳 Z7PRO。读 README、对话归档和逐项版本表，以最近一次用户纠正为准。从方案 11 固定梁端的实测输入和尺寸计算开始。保留 180° 旋转方案作为对照。
+> 继续立久佳 Z7PRO。读 README、对话归档和逐项版本表，以最近一次用户纠正为准。从方案 11 的两张标注图开始，先判断固定端座的轮廓与空间。保留 180° 旋转方案作为对照。
 
 后续每次确认一个细节，在版本表更新该项的状态、改动依据与待验证事项，再把决定追加到对话归档。一个零件可以先验证，整机不用同时升级。
