@@ -1,0 +1,56 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Z7PRO · 掰一下脚座</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f3ef;color:#203437;font:16px/1.5 system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:14px}h1{font-size:24px;margin:0}p{margin:5px 0 10px}section{background:white;padding:14px;border-radius:14px}canvas{width:100%;height:48vh;display:block;touch-action:none;border-radius:12px;background:#e8ecea}button,select,input{font:inherit}button,select{background:#fff;border:1px solid #a4b4ae;border-radius:7px;padding:6px 10px}button{cursor:pointer}.on,#share{background:#174e49;color:white}label{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}input[type=range]{accent-color:#187366;width:min(44vw,240px)}.row{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin:9px 0}small{color:#4e6362}output{min-width:48px}#link{width:100%}
+</style><main><h1>Z7PRO · 脚座动作模型</h1><p>按住黑金脚掌拖动可转动它。拖空白处换视角，滚轮或双指缩放。</p><canvas id="view"></canvas><section>
+<div class="row"><b>记录姿态</b><button id="a">① 正常使用</button><button id="b">② 收纳展开</button><small>两个姿态分别保留角度</small></div>
+<div class="row"><label>掰动范围 <select id="part"><option value="whole">整只脚座</option><option value="tip">仅前半段</option><option value="heel">仅后半段</option></select></label><label>轴方向 <select id="axis"><option value="x">横轴 · 翘起／压下</option><option value="y">竖轴 · 左右摆动</option><option value="z">长轴 · 左右侧翻</option></select></label></div>
+<div class="row"><label>轴心沿脚掌移动 <input id="pivot" type="range" min="-100" max="100" value="0"><output id="pos"></output></label></div>
+<div class="row"><label>转动角度 <input id="angle" type="range" min="-180" max="180" value="0"><output id="deg"></output></label><button id="reset">当前角度归零</button></div>
+<div class="row"><button id="share">复制两个姿态的链接</button><small id="msg">青色线为转轴。梁端和轮子仅作方向参照，尺寸为示意。</small></div><input hidden readonly id="link">
+</section></main>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+<script type="module">
+import * as T from 'three';
+import {OrbitControls} from './vendor/OrbitControls.js';
+const el=id=>document.getElementById(id), canvas=el('view');
+const R=new T.WebGLRenderer({canvas,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new T.Scene();scene.background=new T.Color(0xe8ecea);
+const cam=new T.PerspectiveCamera(36,1,.01,100);cam.position.set(3.5,2.4,4.6);
+const orbit=new OrbitControls(cam,canvas);orbit.target.set(0,.65,0);orbit.minDistance=2;orbit.maxDistance=15;orbit.update();
+scene.add(new T.HemisphereLight(0xffffff,0x98a6a1,2.6));const light=new T.DirectionalLight(0xfff5da,2.9);light.position.set(3,5,2);scene.add(light);
+function mesh(parent,g,col,x,y,z,opacity=1){const m=new T.Mesh(g,new T.MeshStandardMaterial({color:col,transparent:opacity<1,opacity,depthWrite:opacity===1}));parent.add(m);m.position.set(x,y,z);return m}
+mesh(scene,new T.BoxGeometry(.54,1.85,.51),0xc1ccca,0,1.16,0,.63);
+const wheel=mesh(scene,new T.CylinderGeometry(.225,.225,.16,48),0x4c5457,-.25,.27,-.72);wheel.rotation.z=Math.PI/2;
+mesh(scene,new T.BoxGeometry(.14,.15,.72),0x66716f,-.25,.43,-.46);
+const grid=new T.GridHelper(6,24,0xb0bcb8,0xd2dad6);scene.add(grid);
+const moving=new T.Group(),fixed=new T.Group(),hinge=new T.Group();scene.add(moving,fixed,hinge);
+const pin=mesh(hinge,new T.CylinderGeometry(.025,.025,.9,20),0x00a79d,0,0,0);
+function shoe(parent,lo,hi){
+ const w=.47,r=.075,l=hi-lo,s=new T.Shape();s.moveTo(-w/2+r,0);s.lineTo(w/2-r,0);s.quadraticCurveTo(w/2,0,w/2,r);s.lineTo(w/2,l-r);s.quadraticCurveTo(w/2,l,w/2-r,l);s.lineTo(-w/2+r,l);s.quadraticCurveTo(-w/2,l,-w/2,l-r);s.lineTo(-w/2,r);s.quadraticCurveTo(-w/2,0,-w/2+r,0);
+ for(const [base,h,c] of [[.012,.065,0xce9138],[.077,.135,0x252b2e]]){const g=new T.ExtrudeGeometry(s,{depth:h,bevelEnabled:false,curveSegments:8});g.rotateX(Math.PI/2);mesh(parent,g,c,0,base+h,lo)}
+}
+const params=new URLSearchParams(location.hash.slice(1));const clamp=(v,min,max)=>Math.min(max,Math.max(min,Number(v)||0));
+const vals=[clamp(params.get('a'),-180,180),clamp(params.get('b'),-180,180)];
+let active=params.get('s')==='1'?1:0;
+for(const id of ['axis','part'])if([...el(id).options].some(o=>o.value===params.get(id)))el(id).value=params.get(id);
+el('pivot').value=clamp(params.get('p'),-100,100);
+function rebuild(){for(const group of [moving,fixed]){for(const child of [...group.children]){group.remove(child);child.geometry.dispose();child.material.dispose()}}
+ const mode=el('part').value;if(mode==='whole')shoe(moving,-.81,.81);else{shoe(mode==='tip'?fixed:moving,-.81,-.008);shoe(mode==='tip'?moving:fixed,.008,.81)}update()}
+function update(){
+ const axis=el('axis').value,v=new T.Vector3();v[axis]=1;
+ const z=Number(el('pivot').value)*.0081, origin=new T.Vector3(0,.14,z);
+ moving.quaternion.setFromAxisAngle(v,T.MathUtils.degToRad(vals[active]));moving.position.copy(origin).sub(origin.clone().applyQuaternion(moving.quaternion));
+ hinge.position.copy(origin);pin.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),v);
+ el('deg').textContent=vals[active]+'°';el('angle').value=vals[active];el('pos').textContent=el('pivot').value+'%';
+ el('a').classList.toggle('on',!active);el('b').classList.toggle('on',!!active);
+ el('link').hidden=true}
+for(const [i,id] of ['a','b'].entries())el(id).onclick=()=>{active=i;update()};
+el('angle').oninput=e=>{vals[active]=Number(e.target.value);update()};
+el('part').onchange=rebuild;el('axis').onchange=el('pivot').oninput=update;el('reset').onclick=()=>{vals[active]=0;update()};
+const ray=new T.Raycaster();let drag=null;
+canvas.addEventListener('pointerdown',e=>{const b=canvas.getBoundingClientRect();ray.setFromCamera(new T.Vector2((e.clientX-b.left)/b.width*2-1,1-(e.clientY-b.top)/b.height*2),cam);if(!ray.intersectObjects(moving.children).length)return;e.stopImmediatePropagation();orbit.enabled=false;canvas.setPointerCapture(e.pointerId);drag=[e.pointerId,e.clientX,e.clientY,vals[active]]},true);
+canvas.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag[0])return;vals[active]=Math.round(clamp(drag[3]+(e.clientX-drag[1]-(e.clientY-drag[2]))*.7,-180,180));update()});
+function end(){drag=null;orbit.enabled=true}canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);
+el('share').onclick=async()=>{const q=new URLSearchParams({axis:el('axis').value,part:el('part').value,p:el('pivot').value,a:vals[0],b:vals[1],s:active});location.hash=q.toString();try{await navigator.clipboard.writeText(location.href);el('msg').textContent='已复制，可直接把链接发回对话。'}catch{el('link').hidden=false;el('link').value=location.href;el('link').select();el('msg').textContent='请复制下方链接。'}};
+new ResizeObserver(()=>{R.setSize(canvas.clientWidth,canvas.clientHeight,false);cam.aspect=canvas.clientWidth/canvas.clientHeight;cam.updateProjectionMatrix()}).observe(canvas);rebuild();R.setAnimationLoop(()=>R.render(scene,cam));
+</script></html>
