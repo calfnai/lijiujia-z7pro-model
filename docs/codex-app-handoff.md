@@ -1,5 +1,7 @@
 # 雪影 Z7PRO · Codex App 接手提示词
 
+> 最新配置依据：[全新旗舰配置基准](flagship-baseline.md)。以用户表格 H 列为主，其他列只看趋势；已有造型选项与1999元项目目标保留。
+
 在 calfnai/lijiujia-z7pro-model 仓库同步 main 后，从本文件继续。先读 README.md、docs/roadmap.md 的 12 项清单、docs/conversation.md。当前一直是概念稿阶段，直到用户明确更新状态。已有 13 案和工作树，沿用项目。
 
 ## 第一优先：锁定现款面板
