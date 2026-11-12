@@ -67,7 +67,7 @@ const ray=new T.Raycaster(),pointer=new T.Vector2();let down;
 renderer.domElement.addEventListener('pointerdown',e=>down=[e.clientX,e.clientY]);renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5)return;const r=renderer.domElement.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(meshes.filter(m=>m.visible),false)[0];select(hit?.object||null)});
 $('quality').textContent=`源STEP：${meshes.length}个实例 · 预览有${META.missingFaces}个面未网格化。未验证干涉、运动或稳定性。`;
 $('loading').hidden=true;select(null);list();
-window.viewerTest={meshes,renderer,scene,camera,meta:META,select,fit};
+window.viewerTest={T,meshes,renderer,scene,camera,meta:META,select,fit};
 const motion=META.motion,axis=new T.Vector3(0,0,1),identity=new T.Matrix4();
 const about=(p,d)=>new T.Matrix4().makeTranslation(...p).multiply(new T.Matrix4().makeRotationZ(T.MathUtils.degToRad(d))).multiply(new T.Matrix4().makeTranslation(...p.map(n=>-n)));
 const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x)};
