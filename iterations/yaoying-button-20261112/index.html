@@ -84,7 +84,12 @@ function bar(parent,size,pos,color,name){const m=part(parent,new T.BoxGeometry(.
   ring(collar,62.5,10,8,0,colors.moving,'沿扶手侧导轨轴向滑动的齿盘',cut);teeth(collar,7,6,colors.moving,.5,cut);
   ring(rotor,73,64,8,27,colors.housing,'扶手侧外圈',cut);const rearCap=ring(rotor,69,7,5,-50,colors.housing,'弹簧固定后座',cut);
   // Three external guides constrain the purple plate to rotate with the handle.
-  for(const deg of [135,225,315]){const a=T.MathUtils.degToRad(deg),x=66.5*Math.cos(a),y=66.5*Math.sin(a);bar(rotor,[4,4,77],[x,y,-11.5],colors.housing,'轴向导轨');bar(collar,[9,8,8],[x,y,0],colors.moving,'齿盘导向耳')}
+  for(const deg of [135,225,315]){
+    const a=T.MathUtils.degToRad(deg),x=66.5*Math.cos(a),y=66.5*Math.sin(a);bar(rotor,[4,4,77],[x,y,-11.5],colors.housing,'轴向导轨');
+    const s=new T.Shape();s.moveTo(-5.5,-5);s.lineTo(5.5,-5);s.lineTo(5.5,5);s.lineTo(-5.5,5);s.closePath();
+    const hole=new T.Path();hole.moveTo(-2.3,-2.3);hole.lineTo(-2.3,2.3);hole.lineTo(2.3,2.3);hole.lineTo(2.3,-2.3);hole.closePath();s.holes.push(hole);
+    const g=new T.ExtrudeGeometry(s,{depth:8,bevelEnabled:false});g.translate(x,y,-4);part(collar,g,colors.moving,'带通孔的齿盘导向耳');
+  }
   const cap=ring(button,27,.01,6,34,colors.button,'按钮帽',cut);cap.material.roughness=.58;
   cylinder(button,5,55,5.5,colors.button,'轴向推杆');cylinder(button,9,3,-22,colors.button,'推杆压头');
   // Thrust transfer is illustrated with a washer; bearing/retention details remain open.
