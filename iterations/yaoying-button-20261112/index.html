@@ -111,9 +111,9 @@ function bar(parent,size,pos,color,name){const m=part(parent,new T.BoxGeometry(.
   update(0,0);return {root,fixed,rotor,collar,button,spring,update};
 }
 let local=assembly(true);scene.add(local.root);
-function homeview(){camera.position.set(215,115,255);controls.target.set(-20,-35,-2);controls.update()}
+function homeview(){controls.target.set(-20,-35,-2);camera.position.copy(controls.target).add(new T.Vector3(235,150,257).multiplyScalar(1/Math.min(camera.aspect,1)));controls.update()}
 homeview();
-function resize(){const r=$('stage').getBoundingClientRect();renderer.setSize(r.width,r.height);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();dirty=true}
+function resize(){const r=$('stage').getBoundingClientRect(),old=Math.min(camera.aspect,1);renderer.setSize(r.width,r.height);camera.aspect=r.width/r.height;camera.position.sub(controls.target).multiplyScalar(old/Math.min(camera.aspect,1)).add(controls.target);camera.updateProjectionMatrix();dirty=true}
 let dirty=true,playing=false,started=0,sourceReady=false,sourceWindow=null,overlay=null;
 new ResizeObserver(resize).observe($('stage'));resize();controls.addEventListener('change',()=>dirty=true);
 function disposeAssembly(a){a.root.traverse(m=>{if(m.isMesh){m.geometry.dispose();m.material.dispose()}})}
@@ -166,6 +166,7 @@ const sourceTimer=setInterval(()=>{
       for(const el of sourceWindow.document.querySelectorAll('.poses [data-state],#fold,#play,#slope,#cosmetics'))el.disabled=true;
       sourceWindow.document.addEventListener('click',()=>requestAnimationFrame(updateSource));
       sourceWindow.document.addEventListener('input',()=>requestAnimationFrame(updateSource));
+      sourceWindow.addEventListener('resize',()=>requestAnimationFrame(()=>{sourceWindow.viewerTest.fit();updateSource()}));
       sourceWindow.document.getElementById('pose-note').textContent='本页上部扶手由外侧按钮演示控制；下轴和底盘保持展开，全部源件保留。';
       $('source-status').textContent='已联动 · 120 项源装配全部保留';update();return;
     }
