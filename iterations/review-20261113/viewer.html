@@ -239,9 +239,6 @@ window.originReview={T,scene,camera,renderer,product,sourceMeshes,proposalMeshes
 })().catch(e=>{document.getElementById('loading').hidden=false;document.getElementById('loading').textContent='载入失败：'+e.message;console.error(e)})</script><script>(async()=>{
  while(!window.originReview)await new Promise(resolve=>setTimeout(resolve,40));
  const O=window.originReview,{T,scene,renderer,camera}=O,$=id=>document.getElementById(id),rad=d=>d*Math.PI/180;
- const controls=(()=>{ // The original camera controls remain owned by R3; its fit() sets their target.
-  return {fit:(direction,box)=>O.fit(direction,box)};
- })();
  const names={linear:'凌序 Linear',origin:'曜影 Origin',poxing:'坡形'};
  const V=a=>new T.Vector3(...a),smooth=n=>{n=Math.max(0,Math.min(1,n));return n*n*(3-2*n)};
  renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
@@ -334,6 +331,10 @@ window.originReview={T,scene,camera,renderer,product,sourceMeshes,proposalMeshes
   }
  }
  function apply(){
+  // Rejected by the user: these paths intersect the fixed deck rails.
+  // Gate the motion state itself, including programmatic calls and playback.
+  const foldingAllowed=model==='origin';
+  if(!foldingAllowed){fold=0;standing=false;stop()}
   if(model==='origin'){
    O.setState(standing?'stand':fold?'fold':lift?'incline':'normal');
    if(!standing&&fold){$('fold').value=fold*100;$('fold').oninput({target:$('fold')})}
@@ -343,15 +344,21 @@ window.originReview={T,scene,camera,renderer,product,sourceMeshes,proposalMeshes
   floor.visible=view!=='bottom';makeHuman();
   $('review-fold').value=fold*100;$('review-lift').value=lift;
   $('review-fold-value').textContent=Math.round(fold*100)+'%';$('review-lift-value').textContent=Number(lift.toFixed(1))+'°';
+  for(const id of ['review-fold','review-play','review-stand'])$(id).disabled=!foldingAllowed;
+  $('review-fold-value').textContent=foldingAllowed?Math.round(fold*100)+'%':'已撤下';
+  $('review-fold').title=foldingAllowed?'折叠进度':'旧折叠存在实体穿插，已撤下，待重新设计';
+  $('review-play').textContent=foldingAllowed?$('review-play').textContent:'折叠已撤下';
+  $('review-stand').textContent=foldingAllowed?'竖放':'竖放未成立';
   $('review-person').checked=person;$('review-person').disabled=fold>0||standing;
   $('review-stand').classList.toggle('active',standing);
   $('review-status').textContent=standing?'竖放展示：跑面朝墙、机底朝室内；稳定性与搬移方式待核验。':fold?(model==='origin'&&fold>=.999?'原123°折平端尚未对齿，保持待接合；不等于锁定。':'先翻上部扶手，再收下立柱。运动路径为评审提议。'):lift?(model==='origin'?'原20项抬升件与饰盖随动，前轮保持接地。':'抬升支撑为按图运动提议；活动包覆随支臂展开。'):'拖动旋转，滚轮缩放。两条拖拉条可直接切换折叠或抬升过程。';
+  if(!foldingAllowed)$('review-status').textContent='旧折叠有实体穿插，已按用户反馈撤下；竖放也不成立。当前保留展开外观，抬升仍仅为未经工程校核的姿态研究。';
   for(const b of document.querySelectorAll('[data-review-view]'))b.classList.toggle('active',b.dataset.reviewView===view);
  }
  function bounds(){const bb=new T.Box3();if(model==='origin'){for(const m of O.sourceMeshes)if(m.visible&&m.userData.motion!=='loose')bb.expandByObject(m);bb.expandByObject(O.bodyDecor)}else bb.setFromObject(active.body);if(human.visible)bb.expandByObject(human);return bb}
  function fit(){
   const direction={left:[-1,.52,-1],right:[-1,.52,1],side:[0,0,-1],bottom:[-.3,-1,-1],detail:[-1,.35,-1]}[view]||[-1,.52,-1];
-  camera.fov=view==='side'?18:32;camera.updateProjectionMatrix();const bb=bounds();controls.fit(direction,bb);
+  camera.fov=view==='side'?18:32;camera.updateProjectionMatrix();const bb=bounds();O.fit(direction,bb);
   renderer.render(scene,camera);
  }
  function stop(){playing=false;cancelAnimationFrame(raf);$('review-play').textContent='播放折叠'}
@@ -366,13 +373,13 @@ window.originReview={T,scene,camera,renderer,product,sourceMeshes,proposalMeshes
  function setPose({progress=0,slope=0,human:show=false,stand=false,angle='left'}={}){
   stop();fold=Math.max(0,Math.min(1,Number(progress)||0));lift=fold?0:Math.max(0,Math.min(15,Number(slope)||0));standing=!!stand;if(standing){fold=1;lift=0}person=!!show&&!fold&&!standing;view=['left','right','side','bottom'].includes(angle)?angle:'left';apply();fit();
  }
- $('review-fold').oninput=e=>{stop();fold=Number(e.target.value)/100;lift=0;standing=false;apply();fit()};
+ $('review-fold').oninput=e=>{if(model!=='origin')return;stop();fold=Number(e.target.value)/100;lift=0;standing=false;apply();fit()};
  $('review-lift').oninput=e=>{stop();lift=Number(e.target.value);fold=0;standing=false;apply();fit()};
  $('review-person').onchange=e=>{person=e.target.checked;apply();fit()};
- $('review-stand').onclick=()=>{stop();standing=!standing;fold=standing?1:0;lift=0;apply();fit()};
+ $('review-stand').onclick=()=>{if(model!=='origin')return;stop();standing=!standing;fold=standing?1:0;lift=0;apply();fit()};
  $('review-reset').onclick=()=>setPose();
  for(const b of document.querySelectorAll('[data-review-view]'))b.onclick=()=>{view=b.dataset.reviewView;apply();fit()};
- $('review-play').onclick=()=>{if(playing){stop();return}playing=true;fold=lift=0;standing=person=false;previousTime=performance.now();$('review-play').textContent='暂停折叠';const tick=now=>{if(!playing)return;fold=Math.min(1,fold+Math.min((now-previousTime)/1000,.1)/8);previousTime=now;apply();fit();if(fold>=1){stop();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)};
+ $('review-play').onclick=()=>{if(model!=='origin')return;if(playing){stop();return}playing=true;fold=lift=0;standing=person=false;previousTime=performance.now();$('review-play').textContent='暂停折叠';const tick=now=>{if(!playing)return;fold=Math.min(1,fold+Math.min((now-previousTime)/1000,.1)/8);previousTime=now;apply();fit();if(fold>=1){stop();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)};
  // Resize only reframes the active model, preserving the user's state.
  new ResizeObserver(()=>{if(window.productReview)fit()}).observe($('viewport'));
  window.productReview={setModel,setPose,fit,renderer,scene,camera,human,get model(){return model},get progress(){return fold},get slope(){return lift},get active(){return active},get bounds(){return bounds()},get person(){return person},get standing(){return standing},get beltMatrix(){return deckMatrix().toArray()},capture(){renderer.render(scene,camera);return renderer.domElement.toDataURL('image/png')}};
