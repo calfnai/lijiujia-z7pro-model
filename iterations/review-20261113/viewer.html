@@ -115,11 +115,17 @@ for(const [p,power] of [[[2,4,3],2.4],[[-3,2,-3],1.5]]){const l=new T.Directiona
 const undersideLight=new T.DirectionalLight(0xffffff,.8);undersideLight.position.set(0,-3,1);scene.add(undersideLight);
 const grid=new T.GridHelper(4,40,0xb6c4b8,0xdce3d8);grid.position.y=-.003;grid.visible=false;scene.add(grid);
 const product=new T.Group();product.matrixAutoUpdate=false;scene.add(product);
+// Neutral studio reflections for the supplied silver body, scoped to Origin materials.
+const studioCanvas=document.createElement('canvas');studioCanvas.width=1024;studioCanvas.height=512;
+const studioContext=studioCanvas.getContext('2d'),studioGradient=studioContext.createLinearGradient(0,0,0,512);studioGradient.addColorStop(0,'#c6c8ca');studioGradient.addColorStop(.5,'#686c70');studioGradient.addColorStop(1,'#a7aaad');studioContext.fillStyle=studioGradient;studioContext.fillRect(0,0,1024,512);
+for(const x of [100,570]){studioContext.fillStyle='#f7f8fa';studioContext.fillRect(x,55,105,290);studioContext.fillStyle='#c5c8cd';studioContext.fillRect(x+110,70,18,270)}
+const studioTexture=new T.CanvasTexture(studioCanvas);studioTexture.mapping=T.EquirectangularReflectionMapping;studioTexture.colorSpace=T.SRGBColorSpace;
+const studioGenerator=new T.PMREMGenerator(renderer),studioTarget=studioGenerator.fromEquirectangular(studioTexture),studioEnv=studioTarget.texture;studioTexture.dispose();studioGenerator.dispose();
 const sourceMeshes=[],proposalMeshes=[],byRef=new Map();
-const material=(color,shell=false)=>{const m=new T.MeshStandardMaterial({color,roughness:shell?.42:.62,metalness:shell?.18:.25,side:T.DoubleSide});m.userData={shell};return m};
+const material=(color,shell=false)=>{const m=new T.MeshStandardMaterial({color,roughness:shell?.29:.55,metalness:shell?.65:.20,envMap:studioEnv,envMapIntensity:.85,side:T.DoubleSide});m.userData={shell};return m};
 for(const p of META.parts){
  const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array(buffer,p.vertexOffset,p.vertexCount*3),3));g.setIndex(new T.BufferAttribute(new Uint32Array(buffer,p.indexOffset,p.indexCount),1));g.computeVertexNormals();
- const color=p.belt?0x272e2e:p.motion==='handle'?0x4c5854:p.motion==='upright'?0xb7c0b9:p.nativeLift?0x5e7068:p.shell?0x9faea3:0x7d8b84;
+ const color=p.belt?0x222527:p.sourceRef==='#o1.78'||p.nativeLift||['#o1.42','#o1.43'].includes(p.sourceRef)?0x25282b:p.shell?0xb9bbbd:p.motion==='handle'?0x272b2e:0x646a6e;
  const m=new T.Mesh(g,material(color,p.shell));m.userData=p;m.matrixAutoUpdate=false;product.add(m);sourceMeshes.push(m);byRef.set(p.sourceRef,m);
 }
 const about=(p,d)=>new T.Matrix4().makeTranslation(...p).multiply(new T.Matrix4().makeRotationZ(d*Math.PI/180)).multiply(new T.Matrix4().makeTranslation(...p.map(v=>-v)));
@@ -131,42 +137,69 @@ function roundGeo(x,y,z,r=.008){r=Math.min(r,x/2-.00001,y/2-.00001);const s=new 
 function box(parent,size,pos,color,name,shell=true,r=.008){const m=add(parent,roundGeo(...size,r),color,name,shell);m.position.set(...pos);return m}
 function cylinder(parent,r,length,pos,color,name,shell=false){const m=add(parent,new T.CylinderGeometry(r,r,length,48),color,name,shell);m.rotation.x=Math.PI/2;m.position.set(...pos);return m}
 // The mid/rear cover leaves the original moving front frame and its swept path open.
-box(bodyDecor,[.72,.005,.56],[.83,.037,0],0xa7b5aa,'机底中段检修盖');
-box(bodyDecor,[.20,.008,.42],[1.29,.021,0],0x899e90,'后部独立检修分区');
-box(bodyDecor,[.20,.006,.22],[.12,-.033,.13],0x94a99b,'下置电机检修盖');
-for(let i=0;i<11;i++)box(bodyDecor,[.105,.002,.004],[.12,-.037,.053+i*.014],0x384c43,'电机检修盖散热槽',false,.001);
-for(const x of [.49,1.16])for(const z of [-.25,.25]){const screw=cylinder(bodyDecor,.003,.002,[x,.033,z],0x65766d,'齐平检修螺钉');screw.rotation.set(0,0,0)}
-for(const z of [-.20,.20])box(bodyDecor,[.62,.002,.004],[.84,.033,z],0xc6cec4,'机底浅筋',false,.001);
+box(bodyDecor,[.72,.005,.56],[.83,.037,0],0x777e84,'机底中段检修盖');
+box(bodyDecor,[.20,.008,.42],[1.29,.021,0],0x555d63,'后部独立检修分区');
+box(bodyDecor,[.20,.006,.22],[.12,-.033,.13],0x555d63,'下置电机检修盖');
+for(let i=0;i<11;i++)box(bodyDecor,[.105,.002,.004],[.12,-.037,.053+i*.014],0x2c3034,'电机检修盖散热槽',false,.001);
+for(const x of [.49,1.16])for(const z of [-.25,.25]){const screw=cylinder(bodyDecor,.003,.002,[x,.033,z],0x777e84,'齐平检修螺钉');screw.rotation.set(0,0,0)}
+for(const z of [-.20,.20])box(bodyDecor,[.62,.002,.004],[.84,.033,z],0x9ba2a7,'机底浅筋',false,.001);
 // Front beam-end blocks and pads withdrawn by user review, 2026-11-13.
 // Upright contact geometry remains unresolved; do not add substitute feet here.
-const sideOutline=[[.034,-.042],[.056,-.039],[.306,.007],[.432,.047],[.433,.073],[.305,.032],[.052,-.014],[.034,-.018]];
+// Original-reference lift fairings: capsules aligned to the real wheel-to-pivot axis.
+// These are covers only; all 20 source lift components and the measured axes remain.
+function capsuleCover(parent,a,b,r,depth,z,color,name){
+ const dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy),shape=new T.Shape();
+ shape.moveTo(0,-r);shape.lineTo(length,-r);shape.absarc(length,0,r,-Math.PI/2,Math.PI/2,false);shape.lineTo(0,r);shape.absarc(0,0,r,Math.PI/2,Math.PI*1.5,false);shape.closePath();
+ const g=new T.ExtrudeGeometry(shape,{depth,bevelEnabled:true,bevelSize:.001,bevelThickness:.001,bevelSegments:2,curveSegments:32});g.translate(0,0,-depth/2);
+ const m=add(parent,g,color,name,true);m.position.set(a[0],a[1],z);m.rotation.z=Math.atan2(dy,dx);return m;
+}
 for(const sign of [-1,1]){
- const s=new T.Shape();sideOutline.forEach(([x,y],i)=>i?s.lineTo(x,y):s.moveTo(x,y));s.closePath();const g=new T.ExtrudeGeometry(s,{depth:.005,bevelEnabled:false});g.translate(0,0,sign>0?.277:-.282);add(liftDecor,g,0x9caf9e,'随原抬升架运动的侧饰盖',true);
- for(let i=0;i<5;i++){const x=.14+i*.025,y=-.012+(x-.14)*.18;box(liftDecor,[.014,.002,.001],[x,y,sign*.283],0xc1cbbd,'抬升饰盖浅凸纹',true,.0005)}
+ capsuleCover(liftDecor,[-.003063338,-.026288864],[.415365996,.056672204],.024,.006,sign*.284,0x25282b,'火柴胶囊形抬升架包覆 · 随原架体');
+ // Orange/red free-end shoe follows the same capsule, within the original frame width.
+ const tip=box(liftDecor,[.018,.042,.008],[-.011,-.028,sign*.285],0xd74a35,'胶囊自由端软质包覆',false,.008);tip.rotation.z=.196;
+}
+// Restore the supplied silver/orange side treatment without changing the source side rails.
+for(const sign of [-1,1]){
+ capsuleCover(bodyDecor,[.237,.073],[1.347,.073],.009,.0015,sign*.317,0x45494c,'原稿侧梁嵌条边框');
+ capsuleCover(bodyDecor,[.240,.073],[1.344,.073],.0055,.002,sign*.318,0xff8a19,'原稿橙色侧梁嵌条');
 }
 // Original front motor moves below the usable deck; its geometry remains intact.
 const loweredMotor=new T.Matrix4().makeTranslation(0,-.09,0);
-const loweredHead=new T.Matrix4().makeTranslation(0,.082883-.025,0).multiply(new T.Matrix4().makeScale(1,.55,1)).multiply(new T.Matrix4().makeTranslation(0,-.082883,0));
+// Low motor layout retains the reference's continuous curved transverse head.
+// A closed cover replaces the incompatible tall source cover in concept mode only.
+const headFit={top:.139,bottom:.023,noseX:.035,radius:.058,backX:.180,width:.638,wall:.003};
+// Thin front/top hood, open at the bottom and rear for the original moving underframe.
+const headSection=new T.Shape();headSection.moveTo(.035,.023);headSection.absarc(.035,.081,.058,-Math.PI/2,-Math.PI*1.5,true);headSection.lineTo(.145,.139);headSection.quadraticCurveTo(.180,.139,.180,.133);headSection.lineTo(.177,.133);headSection.quadraticCurveTo(.177,.136,.145,.136);headSection.lineTo(.035,.136);headSection.absarc(.035,.081,.055,Math.PI/2,Math.PI*1.5,false);headSection.closePath();
+const headGeometry=new T.ExtrudeGeometry(headSection,{depth:headFit.width,bevelEnabled:false,curveSegments:48});headGeometry.translate(0,0,-headFit.width/2);
+const headCover=add(bodyDecor,headGeometry,0xb9bbbd,'原稿圆弧横向机头 · 下置电机低包覆',true);
+const endSection=new T.Shape();endSection.moveTo(.035,.023);endSection.absarc(.035,.081,.058,-Math.PI/2,-Math.PI*1.5,true);endSection.lineTo(.145,.139);endSection.quadraticCurveTo(.180,.139,.180,.133);endSection.lineTo(.180,.023);endSection.closePath();
+for(const sign of [-1,1]){const g=new T.ExtrudeGeometry(endSection,{depth:.002,bevelEnabled:false,curveSegments:48});g.translate(0,0,sign>0?.317:-.319);add(bodyDecor,g,0xb9bbbd,'圆弧机头侧端盖',true)}
+for(const sign of [-1,1]){
+ cylinder(bodyDecor,.029,.004,[.100403414,.082883051,sign*.361],0x41464a,'原稿下轴圆形嵌件边圈');
+ cylinder(bodyDecor,.023,.006,[.100403414,.082883051,sign*.364],0xf18524,'原稿下轴橙色嵌件');
+}
 // Front cord: a single Z axis and an outward semicircle in the XY plane.
 const cordPivot=[-.026,.050,0],boot=new T.Group();power.add(boot);boot.position.set(...cordPivot);
-for(const z of [-.017,.017])cylinder(power,.022,.005,[cordPivot[0],cordPivot[1],z],0x7e9385,'摆动出线盖板侧颊',true);
-cylinder(power,.005,.042,cordPivot,0x63786b,'单轴出线横向转轴');
+for(const z of [-.017,.017])cylinder(power,.022,.005,[cordPivot[0],cordPivot[1],z],0xaeb2b5,'摆动出线盖板侧颊',true);
+cylinder(power,.005,.042,cordPivot,0x41464a,'单轴出线横向转轴');
 const cable=new T.Group();cable.matrixAutoUpdate=false;product.add(cable);let bootAngle=null,bootDirection=vec([-1,0,0]);
 function tube(parent,points,r,color,name){return add(parent,new T.TubeGeometry(new T.CatmullRomCurve3(points.map(p=>vec(p))),56,r,8,false),color,name,false)}
 function cordGeometry(degrees){
  boot.children.slice().forEach(m=>{boot.remove(m);m.geometry.dispose();m.material.dispose()});
  const a=degrees*Math.PI/180,d=vec([-Math.cos(a),Math.sin(a),0]);bootDirection=d;bootAngle=degrees;
- const m=add(boot,new T.CylinderGeometry(.006,.009,.078,32),0x364c3f,'可摆动护线套');m.quaternion.setFromUnitVectors(vec([0,1,0]),d);m.position.copy(d.clone().multiplyScalar(.04));
- for(let i=1;i<6;i++){const rib=add(boot,new T.TorusGeometry(.0085-i*.0003,.0008,6,32),0x536c5a,'护线套柔性环筋');rib.quaternion.setFromUnitVectors(vec([0,0,1]),d);rib.position.copy(d.clone().multiplyScalar(.012+i*.01))}
+ const m=add(boot,new T.CylinderGeometry(.006,.009,.078,32),0x272a2d,'可摆动护线套');m.quaternion.setFromUnitVectors(vec([0,1,0]),d);m.position.copy(d.clone().multiplyScalar(.04));
+ for(let i=1;i<6;i++){const rib=add(boot,new T.TorusGeometry(.0085-i*.0003,.0008,6,32),0x42474a,'护线套柔性环筋');rib.quaternion.setFromUnitVectors(vec([0,0,1]),d);rib.position.copy(d.clone().multiplyScalar(.012+i*.01))}
 }
 function updateCable(){
  cable.children.slice().forEach(m=>{cable.remove(m);m.geometry.dispose();m.material.dispose()});
  const start=vec(cordPivot).addScaledVector(bootDirection,.079).applyMatrix4(product.matrix),direction=bootDirection.clone().transformDirection(product.matrix),end=[start.x-.20,.007,start.z+.035];
  const tangent=start.clone().addScaledVector(direction,.025);tangent.y=Math.max(.009,tangent.y);
- tube(cable,[start.toArray(),tangent.toArray(),[start.x-.12,Math.max(.018,start.y*.30),start.z+.015],end],.003,0x334a3c,'电源线随姿态垂落示意');
+ tube(cable,[start.toArray(),tangent.toArray(),[start.x-.12,Math.max(.018,start.y*.30),start.z+.015],end],.003,0x242729,'电源线随姿态垂落示意');
  cable.matrix.copy(product.matrix).invert();
 }
 cordGeometry(20);
+// Flush orange shoulder inserts follow the existing shoulder axis and button travel.
+const shoulderInserts=[-1,1].map(sign=>{const g=new T.Group();g.matrixAutoUpdate=false;g.userData.sign=sign;product.add(g);cylinder(g,.029,.003,[0,0,0],0x41464a,'原稿上轴嵌件边圈');cylinder(g,.023,.005,[0,0,sign*.002],0xf18524,'原稿上轴橙色按钮外观');return g});
 const clutch=new ClutchState();let joints=[makeClutch(T,false),makeClutch(T,false)],detailJoint=makeClutch(T,true);for(const j of joints)product.add(j.root);product.add(detailJoint.root);detailJoint.root.visible=false;
 let state='normal',view='whole',progress=0,playing=false,lastTime=0,dirty=true,rawMode=false,lastMetrics=null;
 const P=[.415365995789267,.056672203802680,0],W=[-.003063338107635,-.026288863954071,0],R=[1.32086,-.052,0],E=[.07078,.09038,0],TIP=[.26976,.01935,0];
@@ -216,12 +249,13 @@ function pose(){
  product.matrix.copy(new T.Matrix4().makeTranslation(0,.052,0)).multiply(rawMode?I:K.D);
  for(const m of sourceMeshes){
   const p=m.userData;let M=I;
-  if(!rawMode){if(p.motion==='upright')M=A;else if(p.motion==='handle')M=B;else if(p.nativeLift)M=K.F;else if(p.actuator)M=p.sourceRef==='#o1.71.6'?K.rod:K.C;else if(p.sourceRef==='#o1.66')M=loweredMotor;else if(p.sourceRef==='#o1.72')M=loweredHead;else if(p.belt)M=new T.Matrix4().makeScale(1,1,450/435);else if(['#o1.74','#o1.75'].includes(p.sourceRef)){const outer=p.sourceRef==='#o1.74'?.3155:-.3155;M=new T.Matrix4().makeTranslation(0,0,outer).multiply(new T.Matrix4().makeScale(1,1,87.5/95)).multiply(new T.Matrix4().makeTranslation(0,0,-outer))}}
-  m.matrix.copy(M);m.visible=(p.motion!=='loose'||$('loose').checked);
+  if(!rawMode){if(p.motion==='upright')M=A;else if(p.motion==='handle')M=B;else if(p.nativeLift)M=K.F;else if(p.actuator)M=p.sourceRef==='#o1.71.6'?K.rod:K.C;else if(p.sourceRef==='#o1.66')M=loweredMotor;else if(p.belt)M=new T.Matrix4().makeScale(1,1,450/435);else if(['#o1.74','#o1.75'].includes(p.sourceRef)){const outer=p.sourceRef==='#o1.74'?.3155:-.3155;M=new T.Matrix4().makeTranslation(0,0,outer).multiply(new T.Matrix4().makeScale(1,1,87.5/95)).multiply(new T.Matrix4().makeTranslation(0,0,-outer))}}
+  m.matrix.copy(M);m.visible=(p.motion!=='loose'||$('loose').checked)&&(rawMode||p.sourceRef!=='#o1.72'||!$('decor').checked);
  }
  bodyDecor.visible=liftDecor.visible=!rawMode&&$('decor').checked;liftDecor.matrix.copy(K.F);power.visible=cable.visible=!rawMode;
  const shade=rawMode||view!=='joint';
- for(let i=0;i<2;i++){const sign=i===0?1:-1,j=joints[i];j.update(clutch.angle,clutch.travel);j.root.visible=!rawMode&&shade;j.root.matrixAutoUpdate=false;j.root.matrix.copy(A).multiply(new T.Matrix4().makeTranslation(META.motion.shoulder[0],META.motion.shoulder[1],sign*.330)).multiply(new T.Matrix4().makeScale(.001,.001,sign*.001));if(shade)j.root.traverse(m=>{if(m.isMesh){m.material.color.setHex(m.name.includes('按钮')?0xcc9e9f:0x76867a)}})}
+ for(const g of shoulderInserts){g.visible=!rawMode&&view!=='joint'&&view!=='lift';g.matrix.copy(A).multiply(new T.Matrix4().makeTranslation(META.motion.shoulder[0],META.motion.shoulder[1],g.userData.sign*(.364-Math.min(.003,clutch.travel*.0003))))}
+ for(let i=0;i<2;i++){const sign=i===0?1:-1,j=joints[i];j.update(clutch.angle,clutch.travel);j.root.visible=!rawMode&&shade;j.root.matrixAutoUpdate=false;j.root.matrix.copy(A).multiply(new T.Matrix4().makeTranslation(META.motion.shoulder[0],META.motion.shoulder[1],sign*.330)).multiply(new T.Matrix4().makeScale(.001,.001,sign*.001));if(shade)j.root.traverse(m=>{if(m.isMesh){m.material.color.setHex(m.name.includes('按钮')?0xf18524:0xaeb2b5)}})}
  detailJoint.root.visible=!rawMode&&view==='joint';detailJoint.update(clutch.angle,clutch.travel,$('explode').checked?15:0);detailJoint.root.matrixAutoUpdate=false;detailJoint.root.matrix.copy(A).multiply(new T.Matrix4().makeTranslation(META.motion.shoulder[0],META.motion.shoulder[1],.330)).multiply(new T.Matrix4().makeScale(.001,.001,.001));
  if(view==='joint'&&!rawMode){for(const m of sourceMeshes){m.visible=m.userData.motion==='upright'||m.userData.motion==='handle';if(m.visible){m.material.transparent=true;m.material.opacity=.10;m.material.depthWrite=false}}bodyDecor.visible=liftDecor.visible=power.visible=cable.visible=false}
  if(view==='lift'&&!rawMode){for(const m of sourceMeshes)m.visible=m.userData.nativeLift||m.userData.actuator;bodyDecor.visible=power.visible=cable.visible=false;for(const j of joints)j.root.visible=false}
@@ -234,8 +268,8 @@ function pose(){
  $('clutch-status').textContent=clutch.status==='locked'?'已耦合 · 贴合锁定':clutch.status==='free'?'已解耦 · 可以转动':'待接合 · 未对齿';$('clutch-status').style.color=clutch.status==='pending'?'#a66d27':clutch.status==='free'?'#8055b4':'#355c44';$('gap-value').textContent=clutch.travel.toFixed(1)+' mm';$('align').disabled=clutch.status!=='pending'||rawMode;
  $('clutch-note').textContent=clutch.status==='pending'?'松开后齿面顶住，尚未接合。原123°端点最近锁位是120°，可微调查看。':'按钮与固定套筒在全行程内保留至少1 mm轴向净距；退开10 mm后最小齿面净距2 mm。尺寸仍为评审提议。';
  $('lift-status').textContent=slope?`原架体绕实测主轴展开 ${K.frameAngle.toFixed(1)}°；驱动伸长示意 ${K.stroke.toFixed(0)} mm。前轮保持接地。`:'原抬升架、轮子与驱动源件保留；抬升时饰盖跟随原架体。';
- $('source-count').textContent=`源件 ${sourceMeshes.length} 项 / ${META.triangles} 三角形 / 0 面网格遗漏。旧扳机及配套6件已删除；余8项游离小件仍留原位；原件模式可查看保存姿态。`;
- $('hudnote').textContent=rawMode?'删旧扳机后的 STEP 保存姿态：不应用新离合片、下置电机和饰盖。':view==='joint'?'多角度离合片：30个深齿；0mm表示齿面贴合，按下按钮后紫片沿轴向退开。':view==='lift'?'原抬升架、轮子和驱动件；饰盖跟随同一主轴展开。驱动端连接与实际行程仍需装配核验。':state==='stand'?'竖放：跑面朝墙、机底朝室内。已撤去错误的前端支座与软鞋；竖放接地点及稳定性待重新设计核验。':state==='fold'?(clutch.status==='pending'?'原123°折平端：离合片还差3°对齿，当前不是锁定状态。':clutch.status==='locked'?'120°对齿锁位：相对原123°折平端保留3°，不是同一终态。':'扶手解耦中：按住按钮手动翻转。'):'曜影 Origin · 旧扳机已删除，整合下置电机、机底修饰与前方摆动出线。';
+ $('source-count').textContent=`源件 ${sourceMeshes.length} 项 / ${META.triangles} 三角形 / 0 面网格遗漏。旧扳机及配套6件已删除；余8项游离小件仍留原位；原高机头罩保留在原件模式，当前低罩为适配修订。`;
+ $('hudnote').textContent=rawMode?'删旧扳机后的 STEP 保存姿态：不应用新离合片、下置电机和饰盖。':view==='joint'?'多角度离合片：30个深齿；0mm表示齿面贴合，按下按钮后紫片沿轴向退开。':view==='lift'?'原抬升架、轮子和驱动件；饰盖跟随同一主轴展开。驱动端连接与实际行程仍需装配核验。':state==='stand'?'竖放：跑面朝墙、机底朝室内。已撤去错误的前端支座与软鞋；竖放接地点及稳定性待重新设计核验。':state==='fold'?(clutch.status==='pending'?'原123°折平端：离合片还差3°对齿，当前不是锁定状态。':clutch.status==='locked'?'120°对齿锁位：相对原123°折平端保留3°，不是同一终态。':'扶手解耦中：按住按钮手动翻转。'):'曜影 Origin · 圆弧机头、机底支撑与胶囊形抬升包覆，按原稿修订待查看。';
  for(const b of document.querySelectorAll('[data-state]'))b.classList.toggle('active',b.dataset.state===state);for(const b of document.querySelectorAll('[data-view]'))b.classList.toggle('active',b.dataset.view===view);
  $('legend').hidden=view!=='joint';drawToothSection();dirty=true;
 }
@@ -263,7 +297,8 @@ function resize(){const r=$('viewport').getBoundingClientRect(),old=Math.min(cam
 new ResizeObserver(resize).observe($('viewport'));controls.addEventListener('change',()=>dirty=true);
 sourceList();resize();alpha();pose();fit();$('loading').hidden=true;
 renderer.setAnimationLoop(now=>{if(playing){const dt=Math.min((now-lastTime)/1000,.1);lastTime=now;progress=Math.min(1,progress+dt/10);clutch.reset();clutch.press();clutch.turn(123*smooth(progress/.4));if(progress>=.4)clutch.release();if(progress>=1)stop();pose()}controls.update();if(dirty||window.productReview){renderer.render(scene,camera);dirty=false}});
-window.originReview={T,scene,camera,renderer,product,sourceMeshes,proposalMeshes,bodyDecor,liftDecor,power,clutch,liftKinematics,pose,setState,chooseView,fit,get joints(){return joints},get detailJoint(){return detailJoint},get state(){return state},get view(){return view},get progress(){return progress},focusTeeth,get metrics(){return lastMetrics},get playing(){return playing}};
+window.originReview={T,scene,camera,renderer,product,sourceMeshes,proposalMeshes,bodyDecor,liftDecor,power,headFit,headCover,clutch,liftKinematics,pose,setState,chooseView,fit,get joints(){return joints},get detailJoint(){return detailJoint},get state(){return state},get view(){return view},get progress(){return progress},focusTeeth,get metrics(){return lastMetrics},get playing(){return playing}};
+
 })().catch(e=>{document.getElementById('loading').hidden=false;document.getElementById('loading').textContent='载入失败：'+e.message;console.error(e)})</script><script>(async()=>{
  while(!window.originReview)await new Promise(resolve=>setTimeout(resolve,40));
  const O=window.originReview,{T,scene,renderer,camera}=O,$=id=>document.getElementById(id),rad=d=>d*Math.PI/180;
