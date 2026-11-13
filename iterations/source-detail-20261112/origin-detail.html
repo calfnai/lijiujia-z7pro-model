@@ -222,4 +222,5 @@ new ResizeObserver(resize).observe($('viewport'));controls.addEventListener('cha
 sourceList();resize();alpha();pose();fit();$('loading').hidden=true;
 renderer.setAnimationLoop(now=>{if(playing){const dt=Math.min((now-lastTime)/1000,.1);lastTime=now;progress=Math.min(1,progress+dt/10);clutch.reset();clutch.press();clutch.turn(123*smooth(progress/.4));if(progress>=.4)clutch.release();if(progress>=1)stop();pose()}controls.update();if(dirty){renderer.render(scene,camera);dirty=false}});
 window.originReview={T,scene,camera,renderer,product,sourceMeshes,proposalMeshes,bodyDecor,liftDecor,power,clutch,liftKinematics,pose,setState,chooseView,fit,get joints(){return joints},get detailJoint(){return detailJoint},get state(){return state},get view(){return view},get progress(){return progress},get metrics(){return lastMetrics},get playing(){return playing}};
+if(location.hash==='#joint')chooseView('joint');
 })().catch(e=>{document.getElementById('loading').hidden=false;document.getElementById('loading').textContent='载入失败：'+e.message;console.error(e)})</script></body></html>
