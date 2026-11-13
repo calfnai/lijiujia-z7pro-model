@@ -84,6 +84,7 @@
   $('fold').value=fold*100;$('percent').textContent=Math.round(fold*100)+'%';
   $('stage').textContent=standing?'竖放状态：固定支撑与抗倾覆尚待设计。':incline?'爬坡12°：扶手保持使用位置；下置电机以包络示意。':fold===0?'使用位置：外观连续，两个关节各自锁止；锁止硬件待设计。':fold<=.4?'第一步：立柱不动，扶手绕A轴向上翻；先解耦，再转动。':'第二步：扶手与立柱顺直后，整体绕B轴向跑台收下。终点待配齿／待锁止。';
   $('caption').textContent=view==='joint'?'A轴贯穿机身宽度方向；固定肩部与活动扶手在这里分开。':view==='lower'?'B轴将立柱接到固定下梁；上面的按钮不能代替这根轴。':exploded?'分件展开视图：拉开仅为看清装配层次。':'先翻扶手，再收立柱。大C是三段刚体，不是把外壳折弯。';
+  document.querySelectorAll('[data-view]').forEach(e=>e.classList.toggle('active',e.dataset.view===view));
   $('cut').setAttribute('aria-pressed',cut);$('explode').setAttribute('aria-pressed',exploded);$('incline').classList.toggle('active',incline);$('stand').classList.toggle('active',standing);
   document.querySelectorAll('[data-pose]').forEach(e=>e.classList.toggle('active',!standing&&!incline&&Math.abs(fold*100-Number(e.dataset.pose))<.05));
  }
