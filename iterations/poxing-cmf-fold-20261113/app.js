@@ -1,0 +1,31 @@
+'use strict';
+const $ = id => document.getElementById(id);
+let held = false;
+let angle = 0;
+function render() {
+  const aligned = angle % 12 === 0;
+  const locked = !held && aligned;
+  $('moving').setAttribute('transform', `rotate(${angle} 207 116)`);
+  const travel = held ? 28 : locked ? 0 : 10;
+  $('sliding').setAttribute('transform', `translate(${travel} 0)`);
+  $('press-rod').setAttribute('transform', `translate(${travel} 0)`);
+  const start = 230 + travel;
+  const pitch = (340 - start) / 6;
+  const coil = Array.from({length: 6}, (_, i) => `L${start + pitch * (i + 1)} ${i % 2 ? 110 : 68}`).join(' ');
+  $('spring').setAttribute('d', `M${start} 89 ${coil} L350 89 H365`);
+  $('button-face').setAttribute('fill', held ? '#748d81' : locked ? '#3e524a' : '#b18a37');
+  $('state').textContent = held ? '已解耦 · 可以翻转' : locked ? '已对齿 · 锁定' : '未对齿 · 待接合';
+  $('hint').textContent = held ? '内部滑动盘退开；把手本体保持轴向位置。' : locked ? '两片齿盘接合；把手不能转动。' : '按钮已松开，但齿峰尚未落入齿谷；需微调。';
+  $('press').disabled = held;
+  $('release').disabled = !held;
+  $('angle').disabled = !held;
+  $('align').hidden = held || locked;
+  $('angle').value = angle;
+  $('degrees').textContent = `${angle}°`;
+}
+$('press').onclick = () => { held = true; render(); };
+$('release').onclick = () => { held = false; render(); };
+$('angle').oninput = e => { if (held) { angle = Number(e.target.value); render(); } };
+$('align').onclick = () => { if (!held) { angle = Math.round(angle / 12) * 12; render(); } };
+$('reset').onclick = () => { held = false; angle = 0; render(); };
+render();
