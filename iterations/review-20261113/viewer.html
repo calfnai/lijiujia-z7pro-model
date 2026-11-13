@@ -129,8 +129,8 @@ box(bodyDecor,[.20,.006,.22],[.12,-.033,.13],0x94a99b,'下置电机检修盖');
 for(let i=0;i<11;i++)box(bodyDecor,[.105,.002,.004],[.12,-.037,.053+i*.014],0x384c43,'电机检修盖散热槽',false,.001);
 for(const x of [.49,1.16])for(const z of [-.25,.25]){const screw=cylinder(bodyDecor,.003,.002,[x,.033,z],0x65766d,'齐平检修螺钉');screw.rotation.set(0,0,0)}
 for(const z of [-.20,.20])box(bodyDecor,[.62,.002,.004],[.84,.033,z],0xc6cec4,'机底浅筋',false,.001);
-// Fixed beam-end shoes remain clear of the lower rotating post and wheel axles.
-for(const z of [-.282,.282]){box(bodyDecor,[.10,.086,.057],[-.008,.085,z],0x7e9385,'固定梁端支座',true,.016);box(bodyDecor,[.014,.078,.060],[-.065,.085,z],0x354b3e,'竖放软鞋',false,.006)}
+// Front beam-end blocks and pads withdrawn by user review, 2026-11-13.
+// Upright contact geometry remains unresolved; do not add substitute feet here.
 const sideOutline=[[.034,-.042],[.056,-.039],[.306,.007],[.432,.047],[.433,.073],[.305,.032],[.052,-.014],[.034,-.018]];
 for(const sign of [-1,1]){
  const s=new T.Shape();sideOutline.forEach(([x,y],i)=>i?s.lineTo(x,y):s.moveTo(x,y));s.closePath();const g=new T.ExtrudeGeometry(s,{depth:.005,bevelEnabled:false});g.translate(0,0,sign>0?.277:-.282);add(liftDecor,g,0x9caf9e,'随原抬升架运动的侧饰盖',true);
@@ -209,7 +209,7 @@ function pose(){
  $('clutch-note').textContent=clutch.status==='pending'?'松开后两片仍未对齿，不能算锁住。原123°端点最近的锁位是120°，可微调查看。':'黄片与紫片的齿面共用同一贴合边界，片体不互相穿插；10mm退开为演示行程。';
  $('lift-status').textContent=slope?`原架体绕实测主轴展开 ${K.frameAngle.toFixed(1)}°；驱动伸长示意 ${K.stroke.toFixed(0)} mm。前轮保持接地。`:'原抬升架、轮子与驱动源件保留；抬升时饰盖跟随原架体。';
  $('source-count').textContent=`源件 ${sourceMeshes.length} 项 / ${META.triangles} 三角形 / 0 面网格遗漏。旧扳机及配套6件已删除；余8项游离小件仍留原位；原件模式可查看保存姿态。`;
- $('hudnote').textContent=rawMode?'删旧扳机后的 STEP 保存姿态：不应用新离合片、下置电机和饰盖。':view==='joint'?'多角度离合片：30个深齿；0mm表示齿面贴合，按下按钮后紫片沿轴向退开。':view==='lift'?'原抬升架、轮子和驱动件；饰盖跟随同一主轴展开。驱动端连接与实际行程仍需装配核验。':state==='stand'?'竖放：跑面朝墙、机底朝室内。梁端软鞋作为接地点提议，尚未验证站立稳定性。':state==='fold'?(clutch.status==='pending'?'原123°折平端：离合片还差3°对齿，当前不是锁定状态。':clutch.status==='locked'?'120°对齿锁位：相对原123°折平端保留3°，不是同一终态。':'扶手解耦中：按住按钮手动翻转。'):'曜影 Origin · 旧扳机已删除，整合下置电机、机底修饰与前方摆动出线。';
+ $('hudnote').textContent=rawMode?'删旧扳机后的 STEP 保存姿态：不应用新离合片、下置电机和饰盖。':view==='joint'?'多角度离合片：30个深齿；0mm表示齿面贴合，按下按钮后紫片沿轴向退开。':view==='lift'?'原抬升架、轮子和驱动件；饰盖跟随同一主轴展开。驱动端连接与实际行程仍需装配核验。':state==='stand'?'竖放：跑面朝墙、机底朝室内。已撤去错误的前端支座与软鞋；竖放接地点及稳定性待重新设计核验。':state==='fold'?(clutch.status==='pending'?'原123°折平端：离合片还差3°对齿，当前不是锁定状态。':clutch.status==='locked'?'120°对齿锁位：相对原123°折平端保留3°，不是同一终态。':'扶手解耦中：按住按钮手动翻转。'):'曜影 Origin · 旧扳机已删除，整合下置电机、机底修饰与前方摆动出线。';
  for(const b of document.querySelectorAll('[data-state]'))b.classList.toggle('active',b.dataset.state===state);for(const b of document.querySelectorAll('[data-view]'))b.classList.toggle('active',b.dataset.view===view);
  $('legend').hidden=view!=='joint';dirty=true;
 }
