@@ -328,7 +328,12 @@ window.originReview={T,scene,camera,renderer,product,sourceMeshes,proposalMeshes
   for(const z of [-.3175,.3175]){
    box(body,[L,.085,.055],[L/2,.108,z],silver,'上层银色边框',.026);
    box(body,[L-.11,.012,.085],[L/2,.158,z*.89],0x6a6d6d,'踏边防滑区',.005);
-   box(body,[L-.14,.038,.047],[L/2,.058,z],0x44494a,name==='poxing'?'独立底部饰板 · 材质待定':'底部侧饰板',.012);
+   const trim=box(body,[L-.14,.038,.047],[L/2,.058,z],0x44494a,name==='poxing'?'独立底部饰板 · 材质待定':'底部侧饰板',.012);
+   if(name==='linear'){
+    const env=O.sourceMeshes.find(m=>m.material?.envMap)?.material.envMap||scene.environment;
+    trim.material.dispose();trim.material=new T.MeshStandardMaterial({color:0xffffff,metalness:1,roughness:.015,envMap:env,envMapIntensity:1,side:T.DoubleSide});
+    trim.name='镜面侧饰板 · 下半截';trim.userData.finish='mirror';
+   }
    for(const x of [.10,L-.09])cyl(body,.026,.038,[x,.028,z],graphite,'落地轮脚');
    for(const x of [.24,1.34])cyl(body,.003,.002,[x,.095,z+Math.sign(z)*.029],0x838887,'侧壳紧固点');
   }
