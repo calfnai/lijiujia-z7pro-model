@@ -111,7 +111,7 @@ function makeOriginUnderside(T,{add,bodyDecor,liftDecor}){
   for(let i=0;i<indices.length;i+=3)tri(...indices.slice(i,i+3).map(n=>[src.getX(n),src.getY(n),src.getZ(n)]));g.setAttribute('position',new T.Float32BufferAttribute(points,3));g.setIndex(faces);g.deleteAttribute('normal');g.deleteAttribute('uv');
   const position=g.attributes.position;
   const tailBlend=x=>{const t=Math.max(0,Math.min(1,(x-.99)/.205));return t*t*(3-2*t)};
-  const height=(x,z)=>base-(flowingTail?.068*tailBlend(x):0)-crown*Math.sin(Math.PI*Math.min(1,Math.max(0,(x-x0)/(x1-x0))))*Math.max(0,1-(z/(width/2))**2);
+  const height=(x,z)=>base-(flowingTail?.068*tailBlend(x):0)-crown*Math.sin(Math.PI*Math.min(1,Math.max(0,(x-x0)/(x1-x0))))*Math.max(0,1-(z/(width/2))**2)*(flowingTail?1-tailBlend(x):1);
   for(let i=0;i<position.count;i++)position.setY(i,position.getY(i)+height(position.getX(i),position.getZ(i)));
   g.computeVertexNormals();const m=add(parent,g,color,name,true);m.material.roughness=.40;m.material.metalness=.32;skins.push(m);return {mesh:m,height};
  }
