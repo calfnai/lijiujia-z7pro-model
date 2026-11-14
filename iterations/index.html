@@ -44,4 +44,4 @@ function scale(n){zoom=Math.max(1,Math.min(4,n));photo.style.width=zoom*100+'%';
 for(const b of document.querySelectorAll('[data-image]'))b.onclick=()=>{photo.src=b.dataset.image;photo.alt=b.dataset.title;$('lightbox-title').textContent=b.dataset.title;scale(1);lightbox.showModal();$('lightbox-scroll').scrollTo(0,0)};
 $('close-lightbox').onclick=()=>lightbox.close();$('zoom-in').onclick=()=>scale(zoom+.5);$('zoom-out').onclick=()=>scale(zoom-.5);
 lightbox.addEventListener('click',e=>{const r=lightbox.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)lightbox.close()});
-</script></body></html>
+</script><aside id="console-ui-review" style="padding:24px;text-align:center;background:#15231a;color:#eaf2e6"><a style="color:#c3f16b" href="console-ui-20261114/">超宽操作面板 UI v01 · 四种状态待评审 ↗</a></aside></body></html>
