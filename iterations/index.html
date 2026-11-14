@@ -30,7 +30,7 @@ function fromHash(){const hash=location.hash.slice(1),next=hash==='origin-detail
 for(const b of document.querySelectorAll('[data-model]'))b.onclick=()=>select(b.dataset.model);
 function start(){
  ready=false;started=true;$('model-error').hidden=true;$('motion-poster').hidden=true;$('model-frame').hidden=false;
- $('model-frame').src='review-20261113/viewer.html?controls=20261114&mirror=20261114&rev=origin-cord-bottom-20261114&model='+model;
+ $('model-frame').src='review-20261113/viewer.html?controls=62bdd8ed0f&mirror=20261114&rev=origin-cord-bottom-20261114&model='+model;
  clearTimeout(loadTimer);loadTimer=setTimeout(()=>{if(!ready)$('model-error').hidden=false},45000);
 }
 $('start-model').onclick=start;$('retry-model').onclick=start;
