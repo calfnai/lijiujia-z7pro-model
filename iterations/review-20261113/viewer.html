@@ -511,7 +511,7 @@ if(location.hash==='#cord')chooseView('cord');
   $('review-stand').textContent=foldingAllowed?'竖放':'竖放未成立';
   $('review-origin-cord').hidden=model!=='origin';$('review-cord').disabled=standing;$('review-cord-value').textContent=standing?'90°（随竖放转向）':$('review-cord').value+'°';
   $('review-concept-details').hidden=model==='origin';
-  $('review-release-demo').setAttribute('aria-pressed','false');
+  $('review-release-demo').setAttribute('aria-pressed','false');if(active)for(const b of active.buttons)b.position.z=b.userData.restZ;
   $('review-person').checked=person;$('review-person').disabled=fold>0||standing;
   $('review-stand').classList.toggle('active',standing);
   $('review-status').textContent=standing?'竖放展示：跑面朝墙、机底朝室内；稳定性与搬移方式待核验。':fold?(model==='origin'&&fold>=.999?'原123°折平端尚未对齿，保持待接合；不等于锁定。':'先翻上部扶手，再收下立柱。运动路径为评审提议。'):lift?(model==='origin'?'原20项抬升件与饰盖随动，前轮保持接地。':'抬升支撑为按图运动提议；活动包覆随支臂展开。'):'拖动旋转，滚轮缩放。两条拖拉条可直接切换折叠或抬升过程。';
