@@ -38,7 +38,7 @@ html,body{height:100%;background:#efeeea;color:#292c2b}body>header,#viewport>.to
     <input id="review-lift" aria-label="抬升拖拉条" type="range" min="0" max="15" step=".1" value="0">
     <div class="endpoints"><span>平地 0°</span><span>抬升 15°</span></div>
     <div class="review-actions"><button id="review-play">播放折叠</button><button id="review-stand">竖放</button><label><input id="review-person" type="checkbox">人物比例</label></div>
-    <div id="review-origin-cord" hidden><div class="review-actions"><button id="review-cord-focus">细看T-fal式出线口 ↗</button></div><label class="range-label" for="review-cord"><span>出线方向（使用态）· 120°长口</span><output id="review-cord-value">20°</output></label><input id="review-cord" aria-label="曜影出线方向" type="range" min="-30" max="90" step="1" value="20"><div class="endpoints"><span>向前斜下30°</span><span>朝天90°</span></div></div><p id="review-status" role="status" aria-live="polite"></p>
+    <div id="review-origin-cord" hidden><div class="review-actions"><button id="review-cord-focus">细看T-fal式出线口 ↗</button></div><label class="range-label" for="review-cord"><span>出线方向（使用态）· 120°长口</span><output id="review-cord-value">20°</output></label><input id="review-cord" aria-label="曜影出线方向" type="range" min="-30" max="90" step="1" value="20"><div class="endpoints"><span>向前斜下30°</span><span>朝天90°</span></div></div><div id="review-concept-details" hidden><p>实体按钮与机底收线 · 新增布置提议</p><div class="review-actions"><button id="review-release-demo" aria-pressed="false">按压实体解锁按钮</button><button id="review-cord-layout">查看机底收线</button></div><p>整机折叠待重做；坡形局部上翻动画见主页面独立动作区。</p></div><p id="review-status" role="status" aria-live="polite"></p>
     <details id="review-boundary"><summary>模型来源与演示范围</summary><p id="review-source"></p><p>人物为175cm比例人形。凌序、坡形为按参考图重建的外观研究；折叠与抬升支撑为新增运动提议，尚未完成专用STEP、碰撞、锁止、行程与承载校核。</p></details>
     </section><aside id="legacy-controls" hidden><div class="control"><h2>整机状态</h2><div class="poses"><button data-state="normal" class="active">使用</button><button data-state="incline">抬升</button><button data-state="fold">折平</button><button data-state="stand">竖放</button></div><label>坡度 <b id="slope-value">12°</b><input id="slope" type="range" min="0" max="15" step=".5" value="12"></label><label>收合进度 <b id="fold-value">0%</b><input id="fold" type="range" min="0" max="100" step=".1" value="0"></label><button id="play">播放收合过程</button><p id="lift-status" class="small"></p></div>
 <div class="control"><h2>多角度离合片</h2><div class="measure"><span>30 齿 · 每档 12°</span><span>齿深 8 mm¹</span></div><div id="clutch-status" role="status" aria-live="polite"></div><div class="clutch-section"><h3>齿面展开剖面 · 与3D同步</h3><p class="section-key">黄：固定齿盘　紫：轴向滑动齿盘</p><svg id="tooth-section" viewBox="0 0 320 190" role="img" aria-label="实时齿面剖面"><path id="fixed-profile" fill="#e8c951" stroke="#82701e" stroke-width="1.5"/><path id="moving-profile" fill="#8055b4" stroke="#4a306f" stroke-width="1.5"/><text x="12" y="17" font-size="11" fill="#65561c">固定盘</text><text x="12" y="181" font-size="11" fill="#593880">滑动盘</text><path id="face-gap" fill="none" stroke="#334f42" stroke-width="1.5"/><text id="face-gap-label" x="173" y="102" font-size="11" fill="#334f42"></text></svg><p id="section-pose" class="section-caption"></p><p class="section-caption">取R45圆周展开四个齿距；纵向为轴向。由同一齿形、当前角度和轴向位移实时展开。</p><div class="state-presets"><button data-clutch-pose="locked">① 松手接合</button><button data-clutch-pose="free">② 按下退开</button><button data-clutch-pose="pending">③ 未对齿</button></div><button id="tooth-view">3D近看齿面啮合 ↗</button></div><button id="push" aria-pressed="false">按下按钮 · 解耦</button><label>扶手翻转 <b id="angle-value">0°</b><input id="angle" type="range" min="0" max="123" step=".1" value="0"></label><div class="measure"><span>两片轴向退开</span><b id="gap-value">0 mm</b></div><div class="row" style="margin-top:8px"><button id="align">微调到相邻锁位</button><button id="joint-reset">回到使用角度</button></div><label><input id="section" type="checkbox" checked>离合片剖视（仅局部）</label><label><input id="explode" type="checkbox">离合片零件展开（仅局部）</label><p id="clutch-note" class="small"></p></div>
@@ -433,8 +433,23 @@ if(location.hash==='#cord')chooseView('cord');
    if(name==='poxing')box(handle,[.39,.062,.057],[.16,.005,z],silver,'坡形圆角直扶手',.025);
    else {box(handle,[.08,.048,.05],[.035,0,z],silver,'上端接头 · 原图方向',.013);box(handle,[.29,.042,.046],[.215,0,z],0x303436,'黑色直扶手',.014);box(handle,[.025,.044,.049],[.366,0,z],silver,'银色扶手端帽',.006)}
   }
+
+  // fold-controls-cord-20261114: proposed hardware, independent of rejected full folding.
+  const buttons=[];
+  for(const z of [-.3175,.3175]){
+   cyl(handle,.024,.052,[0,0,z],silver,'上轴按钮座 · 新增提议');
+   const b=cyl(handle,.017,.004,[0,0,z+Math.sign(z)*.029],0x405c54,'折叠解锁按钮 · 位置待核验');b.userData.restZ=b.position.z;buttons.push(b);
+  }
+  const cable=new T.Group();cable.name='竖放收线提议 · 先拔插头';body.add(cable);
+  function wire(points,name){const curve=new T.CatmullRomCurve3(points.map(V));return mesh(cable,new T.TubeGeometry(curve,72,.0035,8,false),0x315f55,name,0)}
+  box(cable,[.032,.018,.038],[.075,.048,.18],graphite,'电源出线口 · 位置提议',.005);
+  wire([[.075,.036,.18],[.10,.027,.22],[.22,.027,.22],[.60,.027,.22],[1.10,.027,.22],[1.15,.027,.08],[1.01,.022,.03]],'机底沿边导线');
+  const coil=[];for(let i=0;i<=120;i++){const t=i/120*Math.PI*6;coil.push([.74+.27*Math.cos(t),.022-i*.00003,.03+.115*Math.sin(t)])}coil.push([1.08,.024,.03]);wire(coil,'松弯盘线 · 长度及弯曲半径待核验');
+  for(const x of [.32,.66,1.0])box(cable,[.028,.018,.025],[x,.022,.22],0x738b7b,'可释放理线夹 · 新增提议',.005);
+  box(cable,[.055,.024,.036],[1.08,.024,.03],graphite,'拔下后的插头停靠位 · 新增提议',.006);
+
   const support=new T.Group();scene.add(support);
-  return {body,post,handle,L,W,top,angle,length,support};
+  return {body,post,handle,L,W,top,angle,length,support,buttons,cable};
  }
  let active=null,model='origin',fold=0,lift=0,standing=false,person=false,view='left',playing=false,previousTime=0,raf=null;
  const deckMatrix=()=>model==='origin'?O.product.matrix:active.body.matrixWorld;
@@ -495,6 +510,8 @@ if(location.hash==='#cord')chooseView('cord');
   $('review-play').textContent=foldingAllowed?$('review-play').textContent:'折叠已撤下';
   $('review-stand').textContent=foldingAllowed?'竖放':'竖放未成立';
   $('review-origin-cord').hidden=model!=='origin';$('review-cord').disabled=standing;$('review-cord-value').textContent=standing?'90°（随竖放转向）':$('review-cord').value+'°';
+  $('review-concept-details').hidden=model==='origin';
+  $('review-release-demo').setAttribute('aria-pressed','false');
   $('review-person').checked=person;$('review-person').disabled=fold>0||standing;
   $('review-stand').classList.toggle('active',standing);
   $('review-status').textContent=standing?'竖放展示：跑面朝墙、机底朝室内；稳定性与搬移方式待核验。':fold?(model==='origin'&&fold>=.999?'原123°折平端尚未对齿，保持待接合；不等于锁定。':'先翻上部扶手，再收下立柱。运动路径为评审提议。'):lift?(model==='origin'?'原20项抬升件与饰盖随动，前轮保持接地。':'抬升支撑为按图运动提议；活动包覆随支臂展开。'):'拖动旋转，滚轮缩放。两条拖拉条可直接切换折叠或抬升过程。';
@@ -504,7 +521,7 @@ if(location.hash==='#cord')chooseView('cord');
  function bounds(){const bb=new T.Box3();if(model==='origin'){for(const m of O.sourceMeshes)if(m.visible&&m.userData.motion!=='loose')bb.expandByObject(m);bb.expandByObject(O.bodyDecor)}else bb.setFromObject(active.body);if(human.visible)bb.expandByObject(human);return bb}
  function fit(){
   const direction=standing?[1,.25,.75]:{left:[-1,.52,-1],right:[-1,.52,1],side:[0,0,-1],bottom:[-.3,-1,-1],detail:[-1,.35,-1]}[view]||[-1,.52,-1];
-  camera.fov=view==='side'?18:32;camera.updateProjectionMatrix();const bb=bounds();O.fit(direction,bb);
+  camera.fov=view==='side'?18:32;camera.updateProjectionMatrix();const bb=view==='detail'&&active?new T.Box3().setFromObject(active.handle):bounds();O.fit(direction,bb);
   renderer.render(scene,camera);
  }
  function stop(){playing=false;cancelAnimationFrame(raf);$('review-play').textContent='播放折叠'}
@@ -525,6 +542,8 @@ if(location.hash==='#cord')chooseView('cord');
  $('review-cord-focus').onclick=()=>{if(model!=='origin')return;O.chooseView('cord');floor.visible=false};
  $('review-person').onchange=e=>{person=e.target.checked;apply();fit()};
  $('review-stand').onclick=()=>{if(model!=='origin')return;stop();standing=!standing;fold=standing?1:0;lift=0;apply();fit()};
+ $('review-release-demo').onclick=()=>{if(!active)return;const held=$('review-release-demo').getAttribute('aria-pressed')!=='true';$('review-release-demo').setAttribute('aria-pressed',String(held));for(const b of active.buttons)b.position.z=b.userData.restZ-Math.sign(b.userData.restZ)*(held?.003:0);$('review-status').textContent=held?'按钮向内按压示意；未实现内部传动，不代表整机已解锁。':'按钮复位示意；锁止结构与联动待核验。';view='detail';fit()};
+ $('review-cord-layout').onclick=()=>{if(!active)return;view='bottom';apply();fit();$('review-status').textContent='竖放收线提议：先拔插头 → 沿机底边缘走线 → 松弯盘线 → 理线夹固定与插头停靠。竖置局部图见本款细节区；线长、弯曲半径与离地间隙待核验。'};
  $('review-reset').onclick=()=>setPose();
  for(const b of document.querySelectorAll('[data-review-view]'))b.onclick=()=>{view=b.dataset.reviewView;apply();fit()};
  $('review-play').onclick=()=>{if(model!=='origin')return;if(playing){stop();return}playing=true;fold=lift=0;standing=person=false;previousTime=performance.now();$('review-play').textContent='暂停折叠';const tick=now=>{if(!playing)return;fold=Math.min(1,fold+Math.min((now-previousTime)/1000,.1)/8);previousTime=now;apply();fit();if(fold>=1){stop();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)};
