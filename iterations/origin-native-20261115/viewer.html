@@ -60,7 +60,7 @@
   for(const m of meshes)if(m.userData.sourceRef.startsWith('#o1.67.'))m.visible=state==='source';
   if(standing)body.rotation.z=Math.PI/2;
   body.updateMatrixWorld(true);
-  if(standing){const b=new T.Box3().setFromObject(body);body.position.y=-b.min.y;body.updateMatrixWorld(true)}
+  if(standing){const b=new T.Box3();for(const m of meshes)if(m.visible)b.expandByObject(m,true);body.position.y=-b.min.y;body.updateMatrixWorld(true)}
   $('review-upfold').value=postAngle;$('review-upfold-value').textContent=postAngle.toFixed(0)+'°';
   $('fold').value=fold;$('fold-value').textContent=Math.round(fold*100)+'%';
   $('pose-state').textContent=({normal:'使用态 · 按补图对齐',source:'STEP保存姿态 · 110项原位',fold:'折平终态 · 按补图对齐',stand:'竖放姿态 · 接地仍待核验',motion:'双轴折叠关系研究'})[state];
