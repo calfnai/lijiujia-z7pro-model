@@ -1,0 +1,1125 @@
+{
+  "parts": [
+    {
+      "screenRanges": [],
+      "id": 1,
+      "ref": "#o1.1",
+      "vertexOffset": 0,
+      "vertexCount": 4782,
+      "faces": 149,
+      "indexOffset": 57384,
+      "indexCount": 17436
+    },
+    {
+      "screenRanges": [],
+      "id": 2,
+      "ref": "#o1.2",
+      "vertexOffset": 127128,
+      "vertexCount": 1820,
+      "faces": 82,
+      "indexOffset": 148968,
+      "indexCount": 5280
+    },
+    {
+      "screenRanges": [],
+      "id": 3,
+      "ref": "#o1.3",
+      "vertexOffset": 170088,
+      "vertexCount": 1058,
+      "faces": 33,
+      "indexOffset": 182784,
+      "indexCount": 3240
+    },
+    {
+      "screenRanges": [],
+      "id": 4,
+      "ref": "#o1.4",
+      "vertexOffset": 195744,
+      "vertexCount": 588,
+      "faces": 20,
+      "indexOffset": 202800,
+      "indexCount": 1656
+    },
+    {
+      "screenRanges": [],
+      "id": 5,
+      "ref": "#o1.5",
+      "vertexOffset": 209424,
+      "vertexCount": 944,
+      "faces": 30,
+      "indexOffset": 220752,
+      "indexCount": 2664
+    },
+    {
+      "screenRanges": [],
+      "id": 6,
+      "ref": "#o1.6",
+      "vertexOffset": 231408,
+      "vertexCount": 944,
+      "faces": 30,
+      "indexOffset": 242736,
+      "indexCount": 2664
+    },
+    {
+      "screenRanges": [],
+      "id": 7,
+      "ref": "#o1.7",
+      "vertexOffset": 253392,
+      "vertexCount": 420,
+      "faces": 24,
+      "indexOffset": 258432,
+      "indexCount": 1128
+    },
+    {
+      "screenRanges": [],
+      "id": 8,
+      "ref": "#o1.8",
+      "vertexOffset": 262944,
+      "vertexCount": 420,
+      "faces": 24,
+      "indexOffset": 267984,
+      "indexCount": 1128
+    },
+    {
+      "screenRanges": [],
+      "id": 9,
+      "ref": "#o1.9",
+      "vertexOffset": 272496,
+      "vertexCount": 420,
+      "faces": 24,
+      "indexOffset": 277536,
+      "indexCount": 1128
+    },
+    {
+      "screenRanges": [],
+      "id": 10,
+      "ref": "#o1.10",
+      "vertexOffset": 282048,
+      "vertexCount": 420,
+      "faces": 24,
+      "indexOffset": 287088,
+      "indexCount": 1128
+    },
+    {
+      "screenRanges": [],
+      "id": 11,
+      "ref": "#o1.11",
+      "vertexOffset": 291600,
+      "vertexCount": 1928,
+      "faces": 72,
+      "indexOffset": 314736,
+      "indexCount": 6312
+    },
+    {
+      "screenRanges": [],
+      "id": 12,
+      "ref": "#o1.12",
+      "vertexOffset": 339984,
+      "vertexCount": 1292,
+      "faces": 44,
+      "indexOffset": 355488,
+      "indexCount": 3648
+    },
+    {
+      "screenRanges": [],
+      "id": 13,
+      "ref": "#o1.13",
+      "vertexOffset": 370080,
+      "vertexCount": 1256,
+      "faces": 38,
+      "indexOffset": 385152,
+      "indexCount": 3576
+    },
+    {
+      "screenRanges": [],
+      "id": 14,
+      "ref": "#o1.14",
+      "vertexOffset": 399456,
+      "vertexCount": 2650,
+      "faces": 149,
+      "indexOffset": 431256,
+      "indexCount": 8484
+    },
+    {
+      "screenRanges": [],
+      "id": 15,
+      "ref": "#o1.15",
+      "vertexOffset": 465192,
+      "vertexCount": 2646,
+      "faces": 149,
+      "indexOffset": 496944,
+      "indexCount": 8460
+    },
+    {
+      "screenRanges": [],
+      "id": 16,
+      "ref": "#o1.16",
+      "vertexOffset": 530784,
+      "vertexCount": 9708,
+      "faces": 57,
+      "indexOffset": 647280,
+      "indexCount": 43500
+    },
+    {
+      "screenRanges": [],
+      "id": 17,
+      "ref": "#o1.17",
+      "vertexOffset": 821280,
+      "vertexCount": 9723,
+      "faces": 57,
+      "indexOffset": 937956,
+      "indexCount": 43590
+    },
+    {
+      "screenRanges": [],
+      "id": 18,
+      "ref": "#o1.18",
+      "vertexOffset": 1112316,
+      "vertexCount": 546,
+      "faces": 45,
+      "indexOffset": 1118868,
+      "indexCount": 1404
+    },
+    {
+      "screenRanges": [],
+      "id": 19,
+      "ref": "#o1.19",
+      "vertexOffset": 1124484,
+      "vertexCount": 944,
+      "faces": 30,
+      "indexOffset": 1135812,
+      "indexCount": 2664
+    },
+    {
+      "screenRanges": [],
+      "id": 20,
+      "ref": "#o1.20",
+      "vertexOffset": 1146468,
+      "vertexCount": 944,
+      "faces": 30,
+      "indexOffset": 1157796,
+      "indexCount": 2664
+    },
+    {
+      "screenRanges": [],
+      "id": 21,
+      "ref": "#o1.21",
+      "vertexOffset": 1168452,
+      "vertexCount": 812,
+      "faces": 20,
+      "indexOffset": 1178196,
+      "indexCount": 2340
+    },
+    {
+      "screenRanges": [],
+      "id": 22,
+      "ref": "#o1.22",
+      "vertexOffset": 1187556,
+      "vertexCount": 968,
+      "faces": 29,
+      "indexOffset": 1199172,
+      "indexCount": 2760
+    },
+    {
+      "screenRanges": [],
+      "id": 23,
+      "ref": "#o1.23",
+      "vertexOffset": 1210212,
+      "vertexCount": 1316,
+      "faces": 27,
+      "indexOffset": 1226004,
+      "indexCount": 3864
+    },
+    {
+      "screenRanges": [],
+      "id": 24,
+      "ref": "#o1.24",
+      "vertexOffset": 1241460,
+      "vertexCount": 884,
+      "faces": 17,
+      "indexOffset": 1252068,
+      "indexCount": 2568
+    },
+    {
+      "screenRanges": [],
+      "id": 25,
+      "ref": "#o1.25",
+      "vertexOffset": 1262340,
+      "vertexCount": 884,
+      "faces": 17,
+      "indexOffset": 1272948,
+      "indexCount": 2568
+    },
+    {
+      "screenRanges": [],
+      "id": 26,
+      "ref": "#o1.26",
+      "vertexOffset": 1283220,
+      "vertexCount": 4672,
+      "faces": 70,
+      "indexOffset": 1339284,
+      "indexCount": 14316
+    },
+    {
+      "screenRanges": [],
+      "id": 27,
+      "ref": "#o1.27",
+      "vertexOffset": 1396548,
+      "vertexCount": 12378,
+      "faces": 107,
+      "indexOffset": 1545084,
+      "indexCount": 56718
+    },
+    {
+      "screenRanges": [],
+      "id": 28,
+      "ref": "#o1.28",
+      "vertexOffset": 1771956,
+      "vertexCount": 2156,
+      "faces": 38,
+      "indexOffset": 1797828,
+      "indexCount": 6588
+    },
+    {
+      "screenRanges": [],
+      "id": 29,
+      "ref": "#o1.29",
+      "vertexOffset": 1824180,
+      "vertexCount": 1343,
+      "faces": 30,
+      "indexOffset": 1840296,
+      "indexCount": 5286
+    },
+    {
+      "screenRanges": [],
+      "id": 30,
+      "ref": "#o1.30",
+      "vertexOffset": 1861440,
+      "vertexCount": 1342,
+      "faces": 30,
+      "indexOffset": 1877544,
+      "indexCount": 5280
+    },
+    {
+      "screenRanges": [],
+      "id": 31,
+      "ref": "#o1.31",
+      "vertexOffset": 1898664,
+      "vertexCount": 1329,
+      "faces": 30,
+      "indexOffset": 1914612,
+      "indexCount": 5202
+    },
+    {
+      "screenRanges": [],
+      "id": 32,
+      "ref": "#o1.32",
+      "vertexOffset": 1935420,
+      "vertexCount": 1347,
+      "faces": 30,
+      "indexOffset": 1951584,
+      "indexCount": 5310
+    },
+    {
+      "screenRanges": [],
+      "id": 33,
+      "ref": "#o1.33",
+      "vertexOffset": 1972824,
+      "vertexCount": 380,
+      "faces": 12,
+      "indexOffset": 1977384,
+      "indexCount": 1080
+    },
+    {
+      "screenRanges": [],
+      "id": 34,
+      "ref": "#o1.34",
+      "vertexOffset": 1981704,
+      "vertexCount": 1451,
+      "faces": 13,
+      "indexOffset": 1999116,
+      "indexCount": 6414
+    },
+    {
+      "screenRanges": [],
+      "id": 35,
+      "ref": "#o1.35",
+      "vertexOffset": 2024772,
+      "vertexCount": 1407,
+      "faces": 13,
+      "indexOffset": 2041656,
+      "indexCount": 6150
+    },
+    {
+      "screenRanges": [],
+      "id": 36,
+      "ref": "#o1.36",
+      "vertexOffset": 2066256,
+      "vertexCount": 1425,
+      "faces": 13,
+      "indexOffset": 2083356,
+      "indexCount": 6258
+    },
+    {
+      "screenRanges": [],
+      "id": 37,
+      "ref": "#o1.37",
+      "vertexOffset": 2108388,
+      "vertexCount": 1455,
+      "faces": 13,
+      "indexOffset": 2125848,
+      "indexCount": 6438
+    },
+    {
+      "screenRanges": [],
+      "id": 38,
+      "ref": "#o1.38",
+      "vertexOffset": 2151600,
+      "vertexCount": 1435,
+      "faces": 13,
+      "indexOffset": 2168820,
+      "indexCount": 6318
+    },
+    {
+      "screenRanges": [],
+      "id": 39,
+      "ref": "#o1.39",
+      "vertexOffset": 2194092,
+      "vertexCount": 1452,
+      "faces": 13,
+      "indexOffset": 2211516,
+      "indexCount": 6420
+    },
+    {
+      "screenRanges": [],
+      "id": 40,
+      "ref": "#o1.40",
+      "vertexOffset": 2237196,
+      "vertexCount": 1435,
+      "faces": 13,
+      "indexOffset": 2254416,
+      "indexCount": 6318
+    },
+    {
+      "screenRanges": [],
+      "id": 41,
+      "ref": "#o1.41",
+      "vertexOffset": 2279688,
+      "vertexCount": 1421,
+      "faces": 13,
+      "indexOffset": 2296740,
+      "indexCount": 6234
+    },
+    {
+      "screenRanges": [],
+      "id": 42,
+      "ref": "#o1.42",
+      "vertexOffset": 2321676,
+      "vertexCount": 4253,
+      "faces": 86,
+      "indexOffset": 2372712,
+      "indexCount": 14754
+    },
+    {
+      "screenRanges": [],
+      "id": 43,
+      "ref": "#o1.43",
+      "vertexOffset": 2431728,
+      "vertexCount": 4255,
+      "faces": 86,
+      "indexOffset": 2482788,
+      "indexCount": 14766
+    },
+    {
+      "screenRanges": [],
+      "id": 44,
+      "ref": "#o1.44",
+      "vertexOffset": 2541852,
+      "vertexCount": 692,
+      "faces": 14,
+      "indexOffset": 2550156,
+      "indexCount": 2004
+    },
+    {
+      "screenRanges": [],
+      "id": 45,
+      "ref": "#o1.45",
+      "vertexOffset": 2558172,
+      "vertexCount": 692,
+      "faces": 14,
+      "indexOffset": 2566476,
+      "indexCount": 2004
+    },
+    {
+      "screenRanges": [],
+      "id": 46,
+      "ref": "#o1.46",
+      "vertexOffset": 2574492,
+      "vertexCount": 692,
+      "faces": 14,
+      "indexOffset": 2582796,
+      "indexCount": 2004
+    },
+    {
+      "screenRanges": [],
+      "id": 47,
+      "ref": "#o1.47",
+      "vertexOffset": 2590812,
+      "vertexCount": 692,
+      "faces": 14,
+      "indexOffset": 2599116,
+      "indexCount": 2004
+    },
+    {
+      "screenRanges": [],
+      "id": 48,
+      "ref": "#o1.48",
+      "vertexOffset": 2607132,
+      "vertexCount": 1272,
+      "faces": 22,
+      "indexOffset": 2622396,
+      "indexCount": 5376
+    },
+    {
+      "screenRanges": [],
+      "id": 49,
+      "ref": "#o1.49",
+      "vertexOffset": 2643900,
+      "vertexCount": 3891,
+      "faces": 277,
+      "indexOffset": 2690592,
+      "indexCount": 12048
+    },
+    {
+      "screenRanges": [],
+      "id": 50,
+      "ref": "#o1.50",
+      "vertexOffset": 2738784,
+      "vertexCount": 2532,
+      "faces": 155,
+      "indexOffset": 2769168,
+      "indexCount": 8088
+    },
+    {
+      "screenRanges": [],
+      "id": 51,
+      "ref": "#o1.51",
+      "vertexOffset": 2801520,
+      "vertexCount": 622,
+      "faces": 19,
+      "indexOffset": 2808984,
+      "indexCount": 1944
+    },
+    {
+      "screenRanges": [],
+      "id": 52,
+      "ref": "#o1.52",
+      "vertexOffset": 2816760,
+      "vertexCount": 1831,
+      "faces": 129,
+      "indexOffset": 2838732,
+      "indexCount": 4998
+    },
+    {
+      "screenRanges": [],
+      "id": 53,
+      "ref": "#o1.53",
+      "vertexOffset": 2858724,
+      "vertexCount": 1832,
+      "faces": 129,
+      "indexOffset": 2880708,
+      "indexCount": 5016
+    },
+    {
+      "screenRanges": [],
+      "id": 54,
+      "ref": "#o1.54",
+      "vertexOffset": 2900772,
+      "vertexCount": 1835,
+      "faces": 129,
+      "indexOffset": 2922792,
+      "indexCount": 5034
+    },
+    {
+      "screenRanges": [],
+      "id": 55,
+      "ref": "#o1.55",
+      "vertexOffset": 2942928,
+      "vertexCount": 1829,
+      "faces": 129,
+      "indexOffset": 2964876,
+      "indexCount": 5010
+    },
+    {
+      "screenRanges": [],
+      "id": 56,
+      "ref": "#o1.56",
+      "vertexOffset": 2984916,
+      "vertexCount": 1126,
+      "faces": 25,
+      "indexOffset": 2998428,
+      "indexCount": 4236
+    },
+    {
+      "screenRanges": [],
+      "id": 57,
+      "ref": "#o1.57",
+      "vertexOffset": 3015372,
+      "vertexCount": 1126,
+      "faces": 25,
+      "indexOffset": 3028884,
+      "indexCount": 4236
+    },
+    {
+      "screenRanges": [],
+      "id": 58,
+      "ref": "#o1.58",
+      "vertexOffset": 3045828,
+      "vertexCount": 1126,
+      "faces": 25,
+      "indexOffset": 3059340,
+      "indexCount": 4236
+    },
+    {
+      "screenRanges": [],
+      "id": 59,
+      "ref": "#o1.59",
+      "vertexOffset": 3076284,
+      "vertexCount": 1126,
+      "faces": 25,
+      "indexOffset": 3089796,
+      "indexCount": 4236
+    },
+    {
+      "screenRanges": [],
+      "id": 60,
+      "ref": "#o1.60",
+      "vertexOffset": 3106740,
+      "vertexCount": 3476,
+      "faces": 224,
+      "indexOffset": 3148452,
+      "indexCount": 12546
+    },
+    {
+      "screenRanges": [],
+      "id": 61,
+      "ref": "#o1.61",
+      "vertexOffset": 3198636,
+      "vertexCount": 3428,
+      "faces": 224,
+      "indexOffset": 3239772,
+      "indexCount": 12252
+    },
+    {
+      "screenRanges": [],
+      "id": 62,
+      "ref": "#o1.62",
+      "vertexOffset": 3288780,
+      "vertexCount": 3380,
+      "faces": 224,
+      "indexOffset": 3329340,
+      "indexCount": 11970
+    },
+    {
+      "screenRanges": [],
+      "id": 63,
+      "ref": "#o1.63",
+      "vertexOffset": 3377220,
+      "vertexCount": 3392,
+      "faces": 224,
+      "indexOffset": 3417924,
+      "indexCount": 12042
+    },
+    {
+      "screenRanges": [],
+      "id": 64,
+      "ref": "#o1.64",
+      "vertexOffset": 3466092,
+      "vertexCount": 622,
+      "faces": 19,
+      "indexOffset": 3473556,
+      "indexCount": 1944
+    },
+    {
+      "screenRanges": [],
+      "id": 65,
+      "ref": "#o1.65",
+      "vertexOffset": 3481332,
+      "vertexCount": 163889,
+      "faces": 3151,
+      "indexOffset": 5448000,
+      "indexCount": 640779
+    },
+    {
+      "screenRanges": [],
+      "id": 66,
+      "ref": "#o1.66.1.1",
+      "vertexOffset": 8011116,
+      "vertexCount": 1564,
+      "faces": 31,
+      "indexOffset": 8029884,
+      "indexCount": 4776
+    },
+    {
+      "screenRanges": [],
+      "id": 67,
+      "ref": "#o1.66.1.2",
+      "vertexOffset": 8048988,
+      "vertexCount": 696,
+      "faces": 14,
+      "indexOffset": 8057340,
+      "indexCount": 2016
+    },
+    {
+      "screenRanges": [],
+      "id": 68,
+      "ref": "#o1.66.1.3",
+      "vertexOffset": 8065404,
+      "vertexCount": 1228,
+      "faces": 40,
+      "indexOffset": 8080140,
+      "indexCount": 3492
+    },
+    {
+      "screenRanges": [],
+      "id": 69,
+      "ref": "#o1.66.1.4",
+      "vertexOffset": 8094108,
+      "vertexCount": 696,
+      "faces": 14,
+      "indexOffset": 8102460,
+      "indexCount": 2016
+    },
+    {
+      "screenRanges": [],
+      "id": 70,
+      "ref": "#o1.66.1.5",
+      "vertexOffset": 8110524,
+      "vertexCount": 1564,
+      "faces": 31,
+      "indexOffset": 8129292,
+      "indexCount": 4776
+    },
+    {
+      "screenRanges": [],
+      "id": 71,
+      "ref": "#o1.66.2",
+      "vertexOffset": 8148396,
+      "vertexCount": 7120,
+      "faces": 42,
+      "indexOffset": 8233836,
+      "indexCount": 34872
+    },
+    {
+      "screenRanges": [],
+      "id": 72,
+      "ref": "#o1.66.3",
+      "vertexOffset": 8373324,
+      "vertexCount": 7120,
+      "faces": 42,
+      "indexOffset": 8458764,
+      "indexCount": 34872
+    },
+    {
+      "screenRanges": [],
+      "id": 73,
+      "ref": "#o1.66.4",
+      "vertexOffset": 8598252,
+      "vertexCount": 800,
+      "faces": 22,
+      "indexOffset": 8607852,
+      "indexCount": 2580
+    },
+    {
+      "screenRanges": [],
+      "id": 74,
+      "ref": "#o1.66.5",
+      "vertexOffset": 8618172,
+      "vertexCount": 800,
+      "faces": 22,
+      "indexOffset": 8627772,
+      "indexCount": 2580
+    },
+    {
+      "screenRanges": [],
+      "id": 75,
+      "ref": "#o1.66.6",
+      "vertexOffset": 8638092,
+      "vertexCount": 344,
+      "faces": 6,
+      "indexOffset": 8642220,
+      "indexCount": 1008
+    },
+    {
+      "screenRanges": [],
+      "id": 76,
+      "ref": "#o1.66.7",
+      "vertexOffset": 8646252,
+      "vertexCount": 344,
+      "faces": 6,
+      "indexOffset": 8650380,
+      "indexCount": 1008
+    },
+    {
+      "screenRanges": [],
+      "id": 77,
+      "ref": "#o1.66.8",
+      "vertexOffset": 8654412,
+      "vertexCount": 344,
+      "faces": 6,
+      "indexOffset": 8658540,
+      "indexCount": 1008
+    },
+    {
+      "screenRanges": [],
+      "id": 78,
+      "ref": "#o1.66.9",
+      "vertexOffset": 8662572,
+      "vertexCount": 800,
+      "faces": 22,
+      "indexOffset": 8672172,
+      "indexCount": 2580
+    },
+    {
+      "screenRanges": [],
+      "id": 79,
+      "ref": "#o1.66.10",
+      "vertexOffset": 8682492,
+      "vertexCount": 344,
+      "faces": 6,
+      "indexOffset": 8686620,
+      "indexCount": 1008
+    },
+    {
+      "screenRanges": [],
+      "id": 80,
+      "ref": "#o1.66.11",
+      "vertexOffset": 8690652,
+      "vertexCount": 800,
+      "faces": 22,
+      "indexOffset": 8700252,
+      "indexCount": 2580
+    },
+    {
+      "screenRanges": [],
+      "id": 81,
+      "ref": "#o1.66.12",
+      "vertexOffset": 8710572,
+      "vertexCount": 7120,
+      "faces": 42,
+      "indexOffset": 8796012,
+      "indexCount": 34872
+    },
+    {
+      "screenRanges": [],
+      "id": 82,
+      "ref": "#o1.66.13",
+      "vertexOffset": 8935500,
+      "vertexCount": 7120,
+      "faces": 42,
+      "indexOffset": 9020940,
+      "indexCount": 34872
+    },
+    {
+      "screenRanges": [],
+      "id": 83,
+      "ref": "#o1.67.1",
+      "vertexOffset": 9160428,
+      "vertexCount": 668,
+      "faces": 13,
+      "indexOffset": 9168444,
+      "indexCount": 2112
+    },
+    {
+      "screenRanges": [],
+      "id": 84,
+      "ref": "#o1.67.2",
+      "vertexOffset": 9176892,
+      "vertexCount": 5914,
+      "faces": 48,
+      "indexOffset": 9247860,
+      "indexCount": 19872
+    },
+    {
+      "screenRanges": [],
+      "id": 85,
+      "ref": "#o1.67.3",
+      "vertexOffset": 9327348,
+      "vertexCount": 344,
+      "faces": 6,
+      "indexOffset": 9331476,
+      "indexCount": 1008
+    },
+    {
+      "screenRanges": [],
+      "id": 86,
+      "ref": "#o1.67.4",
+      "vertexOffset": 9335508,
+      "vertexCount": 344,
+      "faces": 6,
+      "indexOffset": 9339636,
+      "indexCount": 1008
+    },
+    {
+      "screenRanges": [],
+      "id": 87,
+      "ref": "#o1.67.5",
+      "vertexOffset": 9343668,
+      "vertexCount": 1122,
+      "faces": 28,
+      "indexOffset": 9357132,
+      "indexCount": 4410
+    },
+    {
+      "screenRanges": [],
+      "id": 88,
+      "ref": "#o1.68.1",
+      "vertexOffset": 9374772,
+      "vertexCount": 2477,
+      "faces": 40,
+      "indexOffset": 9404496,
+      "indexCount": 9450
+    },
+    {
+      "screenRanges": [],
+      "id": 89,
+      "ref": "#o1.68.2",
+      "vertexOffset": 9442296,
+      "vertexCount": 11544,
+      "faces": 92,
+      "indexOffset": 9580824,
+      "indexCount": 34992
+    },
+    {
+      "screenRanges": [],
+      "id": 90,
+      "ref": "#o1.68.3",
+      "vertexOffset": 9720792,
+      "vertexCount": 640,
+      "faces": 26,
+      "indexOffset": 9728472,
+      "indexCount": 1776
+    },
+    {
+      "screenRanges": [],
+      "id": 91,
+      "ref": "#o1.69.1",
+      "vertexOffset": 9735576,
+      "vertexCount": 7958,
+      "faces": 252,
+      "indexOffset": 9831072,
+      "indexCount": 26664
+    },
+    {
+      "screenRanges": [],
+      "id": 92,
+      "ref": "#o1.69.2",
+      "vertexOffset": 9937728,
+      "vertexCount": 4634,
+      "faces": 102,
+      "indexOffset": 9993336,
+      "indexCount": 16671
+    },
+    {
+      "screenRanges": [],
+      "id": 93,
+      "ref": "#o1.69.3",
+      "vertexOffset": 10060020,
+      "vertexCount": 5580,
+      "faces": 192,
+      "indexOffset": 10126980,
+      "indexCount": 18069
+    },
+    {
+      "screenRanges": [],
+      "id": 94,
+      "ref": "#o1.69.4",
+      "vertexOffset": 10199256,
+      "vertexCount": 524,
+      "faces": 11,
+      "indexOffset": 10205544,
+      "indexCount": 1512
+    },
+    {
+      "screenRanges": [],
+      "id": 95,
+      "ref": "#o1.69.5",
+      "vertexOffset": 10211592,
+      "vertexCount": 3840,
+      "faces": 79,
+      "indexOffset": 10257672,
+      "indexCount": 14856
+    },
+    {
+      "screenRanges": [],
+      "id": 96,
+      "ref": "#o1.69.6",
+      "vertexOffset": 10317096,
+      "vertexCount": 5120,
+      "faces": 121,
+      "indexOffset": 10378536,
+      "indexCount": 18252
+    },
+    {
+      "screenRanges": [],
+      "id": 97,
+      "ref": "#o1.69.7",
+      "vertexOffset": 10451544,
+      "vertexCount": 608,
+      "faces": 29,
+      "indexOffset": 10458840,
+      "indexCount": 1668
+    },
+    {
+      "screenRanges": [],
+      "id": 98,
+      "ref": "#o1.69.8",
+      "vertexOffset": 10465512,
+      "vertexCount": 2516,
+      "faces": 176,
+      "indexOffset": 10495704,
+      "indexCount": 6504
+    },
+    {
+      "screenRanges": [],
+      "id": 99,
+      "ref": "#o1.70",
+      "vertexOffset": 10521720,
+      "vertexCount": 144,
+      "faces": 30,
+      "indexOffset": 10523448,
+      "indexCount": 288
+    },
+    {
+      "screenRanges": [],
+      "id": 100,
+      "ref": "#o1.71",
+      "vertexOffset": 10524600,
+      "vertexCount": 1923,
+      "faces": 32,
+      "indexOffset": 10547676,
+      "indexCount": 8568
+    },
+    {
+      "screenRanges": [],
+      "id": 101,
+      "ref": "#o1.72",
+      "vertexOffset": 10581948,
+      "vertexCount": 128,
+      "faces": 10,
+      "indexOffset": 10583484,
+      "indexCount": 324
+    },
+    {
+      "screenRanges": [],
+      "id": 102,
+      "ref": "#o1.73",
+      "vertexOffset": 10584780,
+      "vertexCount": 24,
+      "faces": 6,
+      "indexOffset": 10585068,
+      "indexCount": 36
+    },
+    {
+      "screenRanges": [],
+      "id": 103,
+      "ref": "#o1.74",
+      "vertexOffset": 10585212,
+      "vertexCount": 24,
+      "faces": 6,
+      "indexOffset": 10585500,
+      "indexCount": 36
+    },
+    {
+      "screenRanges": [],
+      "id": 104,
+      "ref": "#o1.75",
+      "vertexOffset": 10585644,
+      "vertexCount": 128,
+      "faces": 10,
+      "indexOffset": 10587180,
+      "indexCount": 324
+    },
+    {
+      "screenRanges": [],
+      "id": 105,
+      "ref": "#o1.76",
+      "vertexOffset": 10588476,
+      "vertexCount": 272,
+      "faces": 14,
+      "indexOffset": 10591740,
+      "indexCount": 732
+    },
+    {
+      "screenRanges": [],
+      "id": 106,
+      "ref": "#o1.77",
+      "vertexOffset": 10594668,
+      "vertexCount": 284,
+      "faces": 30,
+      "indexOffset": 10598076,
+      "indexCount": 714
+    },
+    {
+      "screenRanges": [],
+      "id": 107,
+      "ref": "#o1.78",
+      "vertexOffset": 10600932,
+      "vertexCount": 9862,
+      "faces": 117,
+      "indexOffset": 10719276,
+      "indexCount": 43914
+    },
+    {
+      "screenRanges": [],
+      "id": 108,
+      "ref": "#o1.79",
+      "vertexOffset": 10894932,
+      "vertexCount": 4772,
+      "faces": 84,
+      "indexOffset": 10952196,
+      "indexCount": 20904
+    },
+    {
+      "screenRanges": [],
+      "id": 109,
+      "ref": "#o1.80",
+      "vertexOffset": 11035812,
+      "vertexCount": 638,
+      "faces": 42,
+      "indexOffset": 11043468,
+      "indexCount": 1668
+    },
+    {
+      "screenRanges": [
+        {
+          "start": 3114,
+          "count": 6,
+          "material": 1
+        },
+        {
+          "start": 7014,
+          "count": 138,
+          "material": 2
+        }
+      ],
+      "id": 110,
+      "ref": "#o1.81",
+      "vertexOffset": 11050140,
+      "vertexCount": 3550,
+      "faces": 70,
+      "indexOffset": 11092740,
+      "indexCount": 14652
+    }
+  ],
+  "sourceSha256": "fb48bd06d26d8e581576a6943941014093319aa42536935ec6210bdd7cb34c55",
+  "occurrences": 110,
+  "missingFaces": 0,
+  "triangles": 520537,
+  "units": "m",
+  "sourceTransform": {
+    "xOffsetMM": -66.66395688856055,
+    "yOffsetMM": 44.5429247646192,
+    "scale": 0.001
+  }
+}
