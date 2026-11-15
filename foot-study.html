@@ -1,8 +1,8 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Z7PRO · 掰一下脚座</title>
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>立久佳 · 三款通用额外增稳研究</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f3ef;color:#203437;font:16px/1.5 system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:14px}h1{font-size:24px;margin:0}p{margin:5px 0 10px}section{background:white;padding:14px;border-radius:14px}canvas{width:100%;height:48vh;display:block;touch-action:none;border-radius:12px;background:#e8ecea}button,select,input{font:inherit}button,select{background:#fff;border:1px solid #a4b4ae;border-radius:7px;padding:6px 10px}button{cursor:pointer}.on,#share{background:#174e49;color:white}label{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}input[type=range]{accent-color:#187366;width:min(44vw,240px)}.row{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin:9px 0}small{color:#4e6362}output{min-width:48px}#link{width:100%}
-</style><main><h1>Z7PRO · 脚座动作模型</h1><p>按住黑金脚掌拖动可转动它。拖空白处换视角，滚轮或双指缩放。</p><canvas id="view"></canvas><section>
-<div class="row"><b>记录姿态</b><button id="a">① 正常使用</button><button id="b">② 收纳展开</button><small>两个姿态分别保留角度</small></div>
+</style><main><nav class="row" aria-label="项目入口"><a href="iterations/#shared-options">返回审查页 · 厂商选用项</a> · <a href="iterations/presentation-20261115/#manufacturer-stability">汇报末尾说明</a> · <a href="research/#case-11">历史11</a> · <a href="research/#case-13">历史13</a></nav><h1>三款通用 · 额外增稳脚座</h1><p>按住黑金脚掌拖动可转动它。拖空白处换视角，滚轮或双指缩放。</p><section style="margin:16px 0"><b>适用：星弧 / 曜影 / 凌序 · 由厂商评估增配</b><p>该机构作为三款的额外增稳方案。固定梁端为灰色参照，青轴表示转轴，黑金脚座为活动件；使用时收拢，收纳支撑时外展。镜面底面亦可供三款厂商选用；把手材质选项仅属于凌序。</p><small>本页为独立动作研究，默认竖轴转动；其他轴、局部及偏移保留作探索。尺寸、安装、锁止、接地、承载与抗倾覆待各款核验，不表示已合入原STEP。</small></section><canvas id="view"></canvas><section>
+<div class="row"><b>记录姿态</b><button id="a">① 使用 · 收拢</button><button id="b">② 收纳 · 外展</button><small>两个姿态分别保留角度</small></div>
 <div class="row"><label>掰动范围 <select id="part"><option value="whole">整只脚座</option><option value="tip">仅前半段</option><option value="heel">仅后半段</option></select></label><label>轴方向 <select id="axis"><option value="x">横轴 · 翘起／压下</option><option value="y">竖轴 · 左右摆动</option><option value="z">长轴 · 左右侧翻</option></select></label></div>
 <div class="row"><label>脚掌相对梁中心的偏移 <input id="pivot" type="range" min="-100" max="100" value="0"><output id="pos"></output></label></div>
 <div class="row"><label>转动角度 <input id="angle" type="range" min="-180" max="180" value="0"><output id="deg"></output></label><button id="reset">当前角度归零</button></div>
@@ -44,7 +44,7 @@ function update(){
  moving.quaternion.setFromAxisAngle(v,T.MathUtils.degToRad(vals[active]));moving.position.copy(origin).sub(origin.clone().applyQuaternion(moving.quaternion));
  hinge.position.copy(origin);pin.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),v);
  el('deg').textContent=vals[active]+'°';el('angle').value=vals[active];el('pos').textContent=el('pivot').value+'%';
- el('a').classList.toggle('on',!active);el('b').classList.toggle('on',!!active);
+ el('a').classList.toggle('on',!active);el('b').classList.toggle('on',!!active);el('a').setAttribute('aria-pressed',String(!active));el('b').setAttribute('aria-pressed',String(!!active));
  el('link').hidden=true}
 for(const [i,id] of ['a','b'].entries())el(id).onclick=()=>{active=i;update()};
 el('angle').oninput=e=>{vals[active]=Number(e.target.value);update()};
@@ -52,7 +52,7 @@ el('part').onchange=rebuild;el('axis').onchange=update;el('pivot').oninput=rebui
 const ray=new T.Raycaster();let drag=null;
 canvas.addEventListener('pointerdown',e=>{const b=canvas.getBoundingClientRect();ray.setFromCamera(new T.Vector2((e.clientX-b.left)/b.width*2-1,1-(e.clientY-b.top)/b.height*2),cam);if(!ray.intersectObjects(moving.children).length)return;e.stopImmediatePropagation();orbit.enabled=false;canvas.setPointerCapture(e.pointerId);drag=[e.pointerId,e.clientX,e.clientY,vals[active]]},true);
 canvas.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag[0])return;vals[active]=Math.round(clamp(drag[3]+(e.clientX-drag[1]-(e.clientY-drag[2]))*.7,-180,180));update()});
-function end(){drag=null;orbit.enabled=true}canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);
+function end(){drag=null;orbit.enabled=true}canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);canvas.addEventListener('lostpointercapture',end);
 el('share').onclick=async()=>{const q=new URLSearchParams({axis:el('axis').value,part:el('part').value,p:el('pivot').value,a:vals[0],b:vals[1],s:active});location.hash=q.toString();try{await navigator.clipboard.writeText(location.href);el('msg').textContent='已复制，可直接把链接发回对话。'}catch{el('link').hidden=false;el('link').value=location.href;el('link').select();el('msg').textContent='请复制下方链接。'}};
 new ResizeObserver(()=>{R.setSize(canvas.clientWidth,canvas.clientHeight,false);cam.aspect=canvas.clientWidth/canvas.clientHeight;cam.updateProjectionMatrix()}).observe(canvas);rebuild();R.setAnimationLoop(()=>R.render(scene,cam));
 </script></html>
