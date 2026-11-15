@@ -26,7 +26,7 @@
   const m=new T.Mesh(g,p.screenRanges?.length?[materials[kind],materials.belt]:materials[kind]);m.name='星弧原装配部件 '+String(p.id).padStart(3,'0');m.userData={sourceRef:p.ref,finish:kind};sourceMap.set(p.ref,m);meshes.push(m);body.add(m);
  }
  let view='left',slope=0,person=false,transparent=false,upfold=0;
- const pivot=V([(394.770-57.1533207223)/1000,(969.601+53.6493534666)/1000,0]);const upperPivot=new T.Group();upperPivot.position.copy(pivot);body.add(upperPivot);const upper=sourceMap.get('#o1.73');body.remove(upper);upperPivot.add(upper);upper.position.copy(pivot).negate();
+ const pivot=V([(394.77034169098283-57.1533207223)/1000,(969.600954072486+53.6493534666)/1000,0]);const upperPivot=new T.Group();upperPivot.position.copy(pivot);body.add(upperPivot);const upper=sourceMap.get('#o1.73');body.remove(upper);upperPivot.add(upper);upper.position.copy(pivot).negate();
  function limb(a,b,r,color){a=V(a);b=V(b);const m=new T.Mesh(new T.CylinderGeometry(r*.8,r,a.distanceTo(b),16),standard(color,0,.8));m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(V([0,1,0]),b.sub(a).normalize());human.add(m)}
  function ellipsoid(p,s,color){const m=new T.Mesh(new T.SphereGeometry(1,24,20),standard(color,0,.8));m.position.set(...p);m.scale.set(...s);human.add(m)}
  function humanPose(){
