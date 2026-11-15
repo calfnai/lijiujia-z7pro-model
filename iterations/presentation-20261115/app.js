@@ -1,5 +1,5 @@
 const slides=[...document.querySelectorAll('.slide')],counter=document.querySelector('output'),bar=document.querySelector('.progress'),menu=document.querySelector('.contents'),modal=document.querySelector('dialog');let current=0,lastFocus;
-function fit(){document.documentElement.style.setProperty('--scale',Math.min((document.documentElement.clientWidth-32)/1600,1))}addEventListener('resize',fit);fit();
+function fit(){document.documentElement.style.setProperty('--scale',Math.min((document.documentElement.clientWidth-32)/1600,1))}addEventListener('resize',()=>{fit();go(current)});fit();
 function pageIndex(hash){const number=/^#p(\d+)$/.exec(hash);if(number)return Math.max(0,Math.min(slides.length-1,Number(number[1])-1));return Math.max(0,slides.findIndex(s=>s.id===hash.slice(1)))}
 function render(){counter.value=`第 ${current+1} 页 / 共 ${slides.length} 页`;const hash="#p"+(current+1);if(location.hash!==hash)history.replaceState(null,"",hash);bar.style.width=`${(current+1)/slides.length*100}%`}
 function go(n){current=Math.max(0,Math.min(slides.length-1,n));slides[current].parentElement.scrollIntoView({behavior:'instant',block:'start'});render()}
