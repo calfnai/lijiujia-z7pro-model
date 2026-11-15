@@ -13,7 +13,7 @@
 <dialog id="lightbox" aria-label="图片放大查看"><div class="lightbox-bar"><span id="lightbox-title"></span><div><button id="zoom-out" aria-label="缩小">−</button><button id="zoom-in" aria-label="放大">＋</button><button id="close-lightbox">关闭 ×</button></div></div><div id="lightbox-scroll"><img id="lightbox-image" alt=""></div><p>点击加减放大；放大后可滚动查看局部。</p></dialog>
 <script>const $=id=>document.getElementById(id),names={linear:'凌序',origin:'曜影',poxing:'星弧'};
 let model='linear',ready=false,started=false,loadTimer;
-function notify(){const f=$('model-frame');if(started&&f.src){const path=new URL(f.src,location.href).pathname;const expected=model==='linear'?'/linear-native-20261115/':model==='poxing'?'/xinghu-native-20261115/':'/review-20261113/';if(!path.includes(expected)){start();return;}}if(ready)f.contentWindow.postMessage({type:'lijiujia-model',model},location.origin)}
+function notify(){const f=$('model-frame');if(started&&f.src){const path=new URL(f.src,location.href).pathname;const expected=model==='linear'?'/linear-native-20261115/':model==='poxing'?'/xinghu-native-20261115/':'/origin-native-20261115/';if(!path.includes(expected)){start();return;}}if(ready)f.contentWindow.postMessage({type:'lijiujia-model',model},location.origin)}
 function select(next,hash=true){
  if(!names[next])return;model=next;
  for(const b of document.querySelectorAll('[data-model]'))b.setAttribute('aria-pressed',String(b.dataset.model===model));
@@ -22,7 +22,7 @@ function select(next,hash=true){
  $('motion-cover').src=model==='origin'?'origin-native-20261115/origin-source-45.webp':(model==='linear'?'linear-native-20261115/linear-source-45.webp':'xinghu-native-20261115/xinghu-source-45.webp');$('motion-cover').alt=names[model]+'模型演示预览';
  $('model-frame').title=names[model]+'交互模型';
  $('open-model-label').textContent='进入'+names[model]+'3D模型';
- $('open-model-scope').textContent=model==='origin'?'全域装配 · 三态与折叠研究 →':model==='poxing'?'真实装配 · 扶手屏幕上翻 →':'原始装配 · 透明查看 →';
+ $('open-model-scope').textContent=model==='origin'?'全域装配 · 使用折平竖放 →':model==='poxing'?'真实装配 · 扶手屏幕上翻 →':'原始装配 · 透明查看 →';
  if(model!=='poxing'){const f=$('upfold-frame');f.hidden=true;f.removeAttribute('src')}
  if(hash)history.replaceState(null,'','#'+model);notify();
 }
@@ -30,7 +30,7 @@ function fromHash(){const hash=location.hash.slice(1),next=hash==='origin-detail
 for(const b of document.querySelectorAll('[data-model]'))b.onclick=()=>select(b.dataset.model);
 function start(){
  ready=false;started=true;$('model-error').hidden=true;$('motion-poster').hidden=true;$('model-frame').hidden=false;
- $('model-frame').src=model==='linear'?'linear-native-20261115/viewer.html?rev=source-20261115':model==='poxing'?'xinghu-native-20261115/viewer.html?rev=native-upfold-20261115':'review-20261113/viewer.html?rev=xinghu-native-route-20261115&model='+model;
+ $('model-frame').src=model==='linear'?'linear-native-20261115/viewer.html?rev=source-20261115':model==='poxing'?'xinghu-native-20261115/viewer.html?rev=native-upfold-20261115':'origin-native-20261115/viewer.html?rev=origin-native-20261115';
  clearTimeout(loadTimer);loadTimer=setTimeout(()=>{if(!ready)$('model-error').hidden=false},45000);
 }
 $('start-model').onclick=start;$('retry-model').onclick=start;
