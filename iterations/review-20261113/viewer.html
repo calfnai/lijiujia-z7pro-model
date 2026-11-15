@@ -156,7 +156,7 @@ function makeOriginUnderside(T,{add,bodyDecor,liftDecor}){
 
 function makeOriginEasycord(T,{add,cylinder,power}){
  const V=a=>new T.Vector3(...a),rad=d=>d*Math.PI/180;
- const config={openingDegrees:120,minDegrees:-30,maxDegrees:90,radius:.058,wall:.003,slotWidth:.024,axisZ:true,center:[.035,.081,0],pivot:[.009,.081,0],bootStart:.026,bootLength:.080};
+ const config={openingDegrees:120,minDegrees:-30,maxDegrees:90,radius:.058,wall:.003,slotWidth:.024,axisZ:true,center:[.035,.081,0],pivot:[.009,.081,0],bootStart:.026,bootLength:.080,bootMaxRadius:.0091};
  const center=V(config.center),pivot=V(config.pivot),rotor=new T.Group(),shells=[];power.add(rotor);rotor.position.copy(pivot);
  function arcShell(r0,r1,t0,t1,width,z,name,color){
   const s=new T.Shape();s.absarc(0,0,r1,rad(t0),rad(t1),false);s.lineTo(r0*Math.cos(rad(t1)),r0*Math.sin(rad(t1)));s.absarc(0,0,r0,rad(t1),rad(t0),true);s.closePath();const g=new T.ExtrudeGeometry(s,{depth:width,bevelEnabled:false,curveSegments:64});g.translate(center.x,center.y,z-width/2);const m=add(power,g,color,name,true);shells.push(m);return m;
@@ -174,20 +174,33 @@ function makeOriginEasycord(T,{add,cylinder,power}){
  // A ring instead of a solid spine leaves a real central passage for the cable.
  const section=new T.Shape();section.absarc(0,0,.022,0,Math.PI*2,false);const hole=new T.Path();hole.absarc(0,0,.005,0,Math.PI*2,true);section.holes.push(hole);
  barrel.geometry.dispose();barrel.geometry=new T.ExtrudeGeometry(section,{depth:.045,bevelEnabled:false,curveSegments:48});barrel.geometry.translate(0,0,-.0225);barrel.rotation.set(0,0,0);
- // Local +Y points toward the exiting cord. Longitudinal bellows and two side slots follow the reference.
+ // Local +Y points toward the exiting cord. One moulded sleeve with short slots
+ // and four continuous longitudinal bridges, as in the actual T-fal reference.
  const boot=new T.Group();rotor.add(boot);
- const core=add(boot,new T.CylinderGeometry(.0047,.0088,.075,40,1,true),0x2d3438,'中空渐细弹性护线套');core.position.y=.060;
- for(let i=0;i<8;i++){
-  const y=.030+i*.009,r=.0091-i*.00052;
-  const rib=add(boot,new T.TorusGeometry(r,.0016,8,48),0x515b60,'Easycord护线套分段柔性筋');rib.rotation.x=Math.PI/2;rib.position.y=y;
+ const ys=[.026,.034];for(let i=0;i<7;i++)ys.push(.037+i*.0085,.0393+i*.0085);ys.push(.099,.106);
+ const points=[],indices=[],segments=96,wall=.0014;
+ const radius=y=>.0091-.0034*Math.pow((y-.026)/.080,1.25);
+ function point(j,k,inside){const a=(k%segments)*Math.PI*2/segments,r=radius(ys[j])-(inside?wall:0);return [r*Math.cos(a),ys[j],r*Math.sin(a)]}
+ function slotCell(j,k){const middle=(ys[j]+ys[j+1])/2,slot=Array.from({length:7},(_,i)=>.037+i*.0085).some(y=>middle>y&&middle<y+.0023),a=((k+.5)*360/segments)%90;return slot&&a>15&&a<75}
+ function quad(a,b,c,d){const n=points.length/3;points.push(...a,...b,...c,...d);indices.push(n,n+2,n+1,n,n+3,n+2)}
+ for(let j=0;j<ys.length-1;j++)for(let k=0;k<segments;k++){
+  if(slotCell(j,k))continue;
+  const a=point(j,k,false),b=point(j,k+1,false),c=point(j+1,k+1,false),d=point(j+1,k,false),ai=point(j,k,true),bi=point(j,k+1,true),ci=point(j+1,k+1,true),di=point(j+1,k,true);
+  quad(a,b,c,d);quad(di,ci,bi,ai);
+  if(j===0||slotCell(j-1,k))quad(a,ai,bi,b);
+  if(j===ys.length-2||slotCell(j+1,k))quad(d,c,ci,di);
+  if(slotCell(j,(k+segments-1)%segments))quad(a,d,di,ai);
+  if(slotCell(j,(k+1)%segments))quad(b,bi,ci,c);
  }
+ const sleeveGeometry=new T.BufferGeometry();sleeveGeometry.setAttribute('position',new T.Float32BufferAttribute(points,3));sleeveGeometry.setIndex(indices);sleeveGeometry.computeVertexNormals();
+ const sleeve=add(boot,sleeveGeometry,0xe6e4de,'T-fal Easycord式一体开槽护线套');sleeve.material.metalness=0;sleeve.material.roughness=.6;boot.userData={style:'moulded-slotted-sleeve',slotRows:7,continuousBridges:4,independentRings:0};
  const wire=add(boot,new T.CylinderGeometry(.003,.003,.110,24),0x23292c,'内部连续电缆通道示意');wire.position.y=.053;
  let degrees=20,direction=V([-1,0,0]);
  function update(value){degrees=Math.min(config.maxDegrees,Math.max(config.minDegrees,value));const a=rad(degrees);direction.set(-Math.cos(a),Math.sin(a),0);rotor.quaternion.setFromUnitVectors(V([0,1,0]),direction);return direction.clone()}
  function openingClearance(value){
   const a=rad(value),d=V([-Math.cos(a),Math.sin(a),0]),p=pivot.clone().sub(center),t=-p.dot(d)+Math.sqrt(p.dot(d)**2+config.radius**2-p.lengthSq()),hit=p.clone().addScaledVector(d,t);let theta=Math.atan2(hit.y,hit.x)*180/Math.PI;if(theta<0)theta+=360;
   const edge=Math.min(theta-90,210-theta)*Math.PI/180*config.radius;
-  return {theta,centerlineEdgeMM:edge*1000,estimatedBootClearanceMM:(edge-.009)*1000,exit:hit.add(center).toArray()};
+  return {theta,centerlineEdgeMM:edge*1000,estimatedBootClearanceMM:(edge-config.bootMaxRadius)*1000,exit:hit.add(center).toArray()};
  }
  update(20);return {config,rotor,shells,boot,update,openingClearance,get direction(){return direction.clone()},get degrees(){return degrees}};
 }
