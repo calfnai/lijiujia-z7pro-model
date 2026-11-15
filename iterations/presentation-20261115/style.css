@@ -17,3 +17,5 @@ body{background:#dededb;color:#111;font-family:Arial,"PingFang SC","Source Han S
  main{margin-top:calc(16px + 36.6667px * var(--scale,1))}
  .page-frame{scroll-margin-top:calc(36.6667px * var(--scale,1))}
 }
+
+.photo-overview .overview-promise{font-size:22px;line-height:1.4;color:#111;margin:0}
