@@ -35,6 +35,42 @@
  }
  const socket=new T.Mesh(new T.BoxGeometry(.006,.018,.032),materials.dark);socket.position.copy(norm(80,75,-184));socket.name='可拆卸电源接口 · 原出线区提议';socket.userData.proposal=true;body.add(socket);
  const bottomPanel=new T.Mesh(new T.BoxGeometry(.94,.001,.55),materials.mirror);bottomPanel.position.set(.92,.067,0);bottomPanel.name='镜面机底饰板 · 分区已确认的外观提议';bottomPanel.userData={proposal:true,finish:'mirror-bottom'};body.add(bottomPanel);
+ const LINEAR_KEEP_LOWER_MIRROR=true;
+const LINEAR_NATIVE_PAINT_RANGES=[{"start": 9096, "count": 138, "material": 1, "face": 84}, {"start": 13479, "count": 75, "material": 2, "face": 108}, {"start": 13554, "count": 225, "material": 2, "face": 109}, {"start": 13779, "count": 72, "material": 2, "face": 110}, {"start": 13851, "count": 6, "material": 2, "face": 111}, {"start": 13857, "count": 72, "material": 2, "face": 112}, {"start": 13929, "count": 291, "material": 2, "face": 113}, {"start": 14220, "count": 261, "material": 2, "face": 114}, {"start": 14481, "count": 159, "material": 2, "face": 115}, {"start": 14640, "count": 264, "material": 2, "face": 116}, {"start": 14904, "count": 6, "material": 2, "face": 117}, {"start": 14910, "count": 162, "material": 2, "face": 118}, {"start": 15072, "count": 6, "material": 2, "face": 119}, {"start": 15078, "count": 78, "material": 2, "face": 120}, {"start": 15156, "count": 6, "material": 2, "face": 121}, {"start": 15162, "count": 75, "material": 2, "face": 122}, {"start": 15237, "count": 6, "material": 2, "face": 123}, {"start": 15243, "count": 72, "material": 2, "face": 124}, {"start": 15315, "count": 6, "material": 2, "face": 125}];
+function applyLinearSourceFinishes({T,sourceMap,materials,body}){
+ if(body.userData.linearSourceFinishes)return body.userData.linearFinishInfo;body.userData.linearSourceFinishes=true;
+ const head=sourceMap.get('#o1.70');
+ const silver=materials.silver.clone();silver.color.setHex(0xc1c4c2);silver.metalness=.72;silver.roughness=.25;
+ const glass=new T.MeshPhysicalMaterial({color:0x111715,metalness:.12,roughness:.13,clearcoat:1,clearcoatRoughness:.08,side:T.DoubleSide});
+ const red=new T.MeshStandardMaterial({color:0xb83327,metalness:.08,roughness:.36,side:T.DoubleSide});
+ silver.onBeforeCompile=shader=>{
+  shader.vertexShader='varying vec3 vNativePosition;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvNativePosition=position;');
+  shader.fragmentShader='varying vec3 vNativePosition;\n'+shader.fragmentShader;
+  const code=`float sx=vNativePosition.x*1000.0+76.6078212915,sy=vNativePosition.y*1000.0-20.0;
+  float grip=step(319.5,abs(vNativePosition.z)*1000.0)*step(.3816*sy+152.3,sx)*step(sx,854.5-.087*sy);
+  float crossing=pow(abs(sin((sx+sy)*1.4)*sin((sx-sy)*1.4)),10.0);
+  diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.028,.034,.031)+crossing*.007,grip);`;
+  shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n'+code).replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nroughnessFactor=mix(roughnessFactor,.66,grip);').replace('#include <metalnessmap_fragment>','#include <metalnessmap_fragment>\nmetalnessFactor=mix(metalnessFactor,0.0,grip);');
+ };
+ materials.sourceHead=silver;materials.sourceGlass=glass;materials.sourceRed=red;
+ head.material=[silver,glass,red];head.geometry.clearGroups();let cursor=0;
+ for(const p of LINEAR_NATIVE_PAINT_RANGES){if(p.start>cursor)head.geometry.addGroup(cursor,p.start-cursor,0);head.geometry.addGroup(p.start,p.count,p.material);cursor=p.start+p.count;}
+ if(cursor<head.geometry.index.count)head.geometry.addGroup(cursor,head.geometry.index.count-cursor,0);
+ // Remove the ornamental rib/strip source items from the current exterior display; retain in sourceMap.
+ for(const ref of ['#o1.72','#o1.73']){const m=sourceMap.get(ref);m.visible=false;m.userData.hiddenReason='用户取消侧面波浪亮条，原几何保留历史';}
+ // Flat, removable visual cladding replaces only the rejected side treatment; no STEP or structural mesh is rewritten.
+ const x0=(191.6078212915-76.6078212915)/1000,x1=(1446.6078212915-76.6078212915)/1000;
+ const y0=(31.638924+20)/1000,y1=(146.638924+20)/1000,split=(y0+y1)/2;
+ const panelMat=materials.silver.clone();panelMat.color.setHex(0xc1c4c2);panelMat.metalness=.72;panelMat.roughness=.28;
+ materials.flatSide=panelMat;
+ for(const sign of [-1,1])for(const [low,high,finish] of [[y0,split,'lower'],[split,y1,'upper']]){
+  const mat=finish==='lower'&&LINEAR_KEEP_LOWER_MIRROR?materials.mirror:panelMat;
+  const m=new T.Mesh(new T.PlaneGeometry(x1-x0,high-low),mat);m.position.set((x0+x1)/2,(low+high)/2,sign*.31515);if(sign<0)m.rotation.y=Math.PI;m.name='侧饰板平整分区 · 用户取消波浪亮条';m.userData={proposal:true,finish,linearFlatSide:true};body.add(m);
+ }
+ return body.userData.linearFinishInfo={screenNativeFace:84,sourceHeadUnchanged:true,gripsUseSourceSurface:true,removedDecorativeRefs:['#o1.72','#o1.73'],lowerSideMirror:LINEAR_KEEP_LOWER_MIRROR};
+}
+
+applyLinearSourceFinishes({T,sourceMap,materials,body});
  let view='left',slope=0,person=false,transparent=false;
  function limb(a,b,r,color){a=V(a);b=V(b);const m=new T.Mesh(new T.CylinderGeometry(r*.8,r,a.distanceTo(b),16),standard(color,0,.8));m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(V([0,1,0]),b.sub(a).normalize());human.add(m)}
  function ellipsoid(p,s,color){const m=new T.Mesh(new T.SphereGeometry(1,24,20),standard(color,0,.8));m.position.set(...p);m.scale.set(...s);human.add(m)}
