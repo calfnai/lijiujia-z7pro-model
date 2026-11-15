@@ -67,8 +67,38 @@
  $('review-person').onchange=e=>{person=e.target.checked;humanPose();fit()};$('transparent').onchange=e=>setTransparent(e.target.checked);$('review-reset').onclick=()=>{setTransparent(false);$('transparent').checked=false;setPose()};
  const resize=()=>{const r=$('viewport').getBoundingClientRect();renderer.setSize(r.width,r.height);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();fit()};new ResizeObserver(resize).observe($('viewport'));
 
- /*UNIFIED_INCLINE_15*/
- function installInclineReview({T,body,belt,meshes,scene,renderer,human,fit,humanPose}){
+ 
+ 
+ /*GROUNDED_INCLINE_R2*/
+ function installGroundedLift({T,slug,body,sourceMap,meshes,meta}){
+ const cfg={linear:{frame:'#o1.60.',act:'#o1.62.',foot:'#o1.69'},origin:{frame:'#o1.66.',act:'#o1.69.',foot:'#o1.79'},xinghu:{frame:'#o1.66.',act:'#o1.68.',foot:'#o1.71'}}[slug],off=meta.sourceTransform,V=p=>new T.Vector3((p[0]+off.xOffsetMM)/1000,(p[1]+off.yOffsetMM)/1000,0),F=V([486.8715102,53.1434312]),A=V([199.408,70.247]),B=V([392.47,1.324]),axis=new T.Vector3(0,0,1);
+ const frame=meshes.filter(m=>m.userData.sourceRef.startsWith(cfg.frame)),act=meshes.filter(m=>m.userData.sourceRef.startsWith(cfg.act)),wheels=frame.filter(m=>[2,3,12,13].some(i=>m.userData.sourceRef===cfg.frame+i)),rod=sourceMap.get(cfg.act+'6'),ab=B.clone().sub(A),base=ab.length();
+ const frameGroup=slug==='linear'?frame[0].parent:new T.Group(),actGroup=slug==='linear'?act[0].parent:new T.Group();
+ if(slug!=='linear'){frameGroup.position.copy(F);actGroup.position.copy(A);body.add(frameGroup,actGroup);for(const m of frame){frameGroup.add(m);m.position.copy(F).negate()}for(const m of act){actGroup.add(m);m.position.copy(A).negate()}}
+ const nativePositions=new Map([...frame,...act].map(m=>[m,m.position.clone()]));
+ // Origin's welded frame has a saved 21.7mm axis offset from its two hinge bushes.
+ // Correct its rigid assembly placement only in the lift pose; retain every native vertex.
+ const originDelta=slug==='origin'?new T.Vector3((486.8715102-469.38087037)/1000,(53.1434312-40.27633093)/1000,0):new T.Vector3();
+ const corrected=frame.filter(m=>!['1.2','1.4'].some(n=>m.userData.sourceRef===cfg.frame+n));
+ let solved=null;
+ function clear(){frameGroup.rotation.z=0;actGroup.rotation.z=0;for(const [m,p]of nativePositions)m.position.copy(p);solved=null;}
+ function minY(list){body.updateMatrixWorld(true);let y=Infinity;for(const m of list){if(!m.visible)continue;const a=m.geometry.attributes.position;for(let i=0;i<a.count;i++)y=Math.min(y,new T.Vector3().fromBufferAttribute(a,i).applyMatrix4(m.matrixWorld).y)}return y}
+ function solve(){
+  if(slug==='origin')for(const m of corrected)m.position.add(originDelta);
+  const staticMeshes=meshes.filter(m=>!frame.includes(m)&&!act.includes(m));body.position.y=0;body.updateMatrixWorld(true);body.position.y=-minY(staticMeshes);body.updateMatrixWorld(true);
+  function clearance(beta){frameGroup.rotation.z=beta;return minY(wheels)}
+  const roots=[];let lo=-Math.PI/2,yl=clearance(lo);
+  for(let n=1;n<=180;n++){let hi=-Math.PI/2+n*Math.PI/180,yh=clearance(hi);if(yl*yh<=0){let l=lo,h=hi;for(let j=0;j<42;j++){let m=(l+h)/2;if(clearance(l)*clearance(m)<=0)h=m;else l=m}roots.push((l+h)/2)}lo=hi;yl=yh}
+  if(!roots.length)throw Error(slug+': source lift cannot reach the ground at this running-plane angle');
+  const beta=roots.sort((a,b)=>Math.abs(a)-Math.abs(b))[0];frameGroup.rotation.z=beta;
+  const target=B.clone().sub(F).applyAxisAngle(axis,beta).add(F),reach=target.clone().sub(A);actGroup.rotation.z=Math.atan2(reach.y,reach.x)-Math.atan2(ab.y,ab.x);rod.position.copy(nativePositions.get(rod)).addScaledVector(ab.clone().normalize(),reach.length()-base);body.updateMatrixWorld(true);
+  const wheelClearance=wheels.map(m=>({ref:m.userData.sourceRef,minYMM:minY([m])*1000}));
+  solved={frameDegrees:beta*180/Math.PI,actuatorExtensionMM:(reach.length()-base)*1000,wheelClearance,lowestFixedMM:minY(staticMeshes)*1000,rearSupportMM:minY([sourceMap.get(cfg.foot)])*1000,originAxisPlacementCorrectionMM:originDelta.toArray().map(x=>x*1000),linkagePoseSolved:true,actuatorAnchorStatus:'native rod end carried with lift frame; mating attachment and stroke limits pending'};
+  if(wheelClearance.some(x=>Math.abs(x.minYMM)>.12))throw Error(slug+': a lift wheel lost ground contact');return solved;
+ }
+ return{solve,clear,status:()=>solved};
+}
+function installInclineReview({T,body,belt,meshes,scene,renderer,human,fit,humanPose,lift}){
  const TARGET=15,axis=new T.Vector3(0,0,1),pos=belt.geometry.attributes.position,indices=belt.geometry.index;
  let best=null;
  for(let i=0;i<indices.count;i+=3){const a=new T.Vector3().fromBufferAttribute(pos,indices.getX(i)),b=new T.Vector3().fromBufferAttribute(pos,indices.getX(i+1)),c=new T.Vector3().fromBufferAttribute(pos,indices.getX(i+2));const n=b.clone().sub(a).cross(c.clone().sub(a)),area=n.length()/2;n.normalize();if(n.y<0)n.negate();if(n.y>.8&&(!best||area>best.area))best={area,n,a,b,c};}
@@ -77,14 +107,14 @@
  const floor=new T.Mesh(new T.PlaneGeometry(20,20),new T.MeshStandardMaterial({color:0xdfddd5,roughness:1,side:T.DoubleSide}));floor.rotation.x=-Math.PI/2;floor.position.y=-.001;floor.visible=false;floor.userData.reviewReference=true;scene.add(floor);
  const groundLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:0x7b8174,depthTest:false}));groundLine.visible=false;groundLine.renderOrder=20;groundLine.userData.reviewReference=true;scene.add(groundLine);
  let active=false;
- function clear(){active=false;floor.visible=false;groundLine.visible=false;}
+ function clear(){active=false;floor.visible=false;groundLine.visible=false;lift.clear();}
  function angle(){body.updateMatrixWorld(true);const n=localNormal.clone().applyMatrix3(new T.Matrix3().getNormalMatrix(belt.matrixWorld)).normalize();return Math.acos(Math.min(1,Math.abs(n.y)))*180/Math.PI;}
  function apply(){
-  // A pose reference only: retain native support geometry, do not invent actuator travel.
+  // Solve native lift rotation against the same world floor as the rear body support.
   const theta=Math.PI/2-TARGET*Math.PI/180-Math.atan2(localNormal.y,localNormal.x);
   body.rotation.set(0,0,theta);body.position.set(rearX*(1-Math.cos(theta)),-rearX*Math.sin(theta),0);body.updateMatrixWorld(true);
   let minY=Infinity,minX=Infinity,maxX=-Infinity;for(const m of meshes){if(!m.visible)continue;const p=m.geometry.attributes.position;for(let i=0;i<p.count;i++){const v=new T.Vector3().fromBufferAttribute(p,i).applyMatrix4(m.matrixWorld);minY=Math.min(minY,v.y);minX=Math.min(minX,v.x);maxX=Math.max(maxX,v.x);}}
-  body.position.y-=minY;body.updateMatrixWorld(true);active=true;floor.visible=true;groundLine.geometry.dispose();groundLine.geometry=new T.BufferGeometry().setFromPoints([new T.Vector3(minX-.12,0,.5),new T.Vector3(maxX+.12,0,.5)]);groundLine.visible=true;humanPose();fit();
+  lift.solve();body.updateMatrixWorld(true);active=true;floor.visible=true;groundLine.geometry.dispose();groundLine.geometry=new T.BufferGeometry().setFromPoints([new T.Vector3(minX-.12,0,.5),new T.Vector3(maxX+.12,0,.5)]);groundLine.visible=true;humanPose();fit();
   const measured=angle();if(Math.abs(measured-TARGET)>1e-5)throw Error('Working belt angle differs from 15 degrees');
  }
  function capture(view='side',w=1800,h=1100){
@@ -93,17 +123,19 @@
   for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){const p=new T.Vector3(x,y,z).project(cam);extent=Math.max(extent,Math.abs(p.x),Math.abs(p.y));}cam.zoom=.86/extent;cam.updateProjectionMatrix();
   const old=renderer.getSize(new T.Vector2()),pixel=renderer.getPixelRatio();renderer.setPixelRatio(1);renderer.setSize(w,h,false);renderer.render(scene,cam);const png=renderer.domElement.toDataURL('image/png');renderer.setPixelRatio(pixel);renderer.setSize(old.x,old.y,false);fit();return png;
  }
- return {clear,apply,capture,get active(){return active},get angle(){return active?angle():0},status(){return {targetDegrees:TARGET,measuredBeltToGroundDegrees:active?angle():null,workingPlaneNormal:localNormal.toArray(),planeTriangle:[best.a,best.b,best.c].map(v=>v.toArray()),active,mechanismSolved:false,reference:'working belt plane versus horizontal ground'}}};
+ return {clear,apply,capture,get active(){return active},get angle(){return active?angle():0},status(){return {targetDegrees:TARGET,measuredBeltToGroundDegrees:active?angle():null,workingPlaneNormal:localNormal.toArray(),planeTriangle:[best.a,best.b,best.c].map(v=>v.toArray()),active,groundedLift:lift.status(),mechanismSolved:false,reference:'working belt plane versus horizontal ground'}}};
 }
 
- const inclineReview=installInclineReview({T,body,belt:sourceMap.get('#o1.33'),meshes,scene,renderer,human,fit,humanPose});
+ const lift=installGroundedLift({T,slug:'xinghu',body,sourceMap,meshes,meta});
+ const inclineReview=installInclineReview({T,body,belt:sourceMap.get('#o1.33'),meshes,scene,renderer,human,fit,humanPose,lift});
  const inclineBasePose=pose;pose=function(){inclineReview.clear();inclineBasePose();};
  let initialIncline=new URLSearchParams(location.search).get('incline')==='15';
  const inclineBaseSetPose=setPose;setPose=function(p={}){const requested=initialIncline||Number(p.slope)>0||p.state==='climb'||p.state==='lift';initialIncline=false;inclineBaseSetPose({...p,slope:0,state:requested?'normal':p.state});if(requested)inclineReview.apply();};
  let inclineButton=$('review-climb');if(!inclineButton){inclineButton=document.createElement('button');inclineButton.id='review-climb';$('review-reset').before(inclineButton);}inclineButton.textContent='抬升态 · 跑台对地15°';inclineButton.onclick=()=>setPose({slope:15,human:person,angle:view});
- const inclineNote=document.createElement('p');inclineNote.id='incline-reference-note';inclineNote.textContent='抬升态统一为跑台工作面与水平地面15°。当前核对目标姿态，抬升架行程与接地联动尚未核验。';inclineButton.after(inclineNote);
- /*END_UNIFIED_INCLINE_15*/
+ const inclineNote=document.createElement('p');inclineNote.id='incline-reference-note';inclineNote.textContent='抬升态统一为跑台工作面与水平地面15°。抬升架随姿态展开、轮组保持接地；已检出原CAD局部实体重叠，推杆限位及承载仍待核验。';inclineButton.after(inclineNote);
+ /*END_GROUNDED_INCLINE_R2*/
   window.productReview={model:'poxing',sourceInstances:100,sourceMeshes:meshes,sourceSha256:meta.sourceSha256,scene,camera,renderer,human,setPose,fit,get active(){return {body,post:sourceMap.get('#o1.72'),handle:sourceMap.get('#o1.73'),support:meshes.filter(m=>m.userData.sourceRef.startsWith('#o1.66')),sourceMeshes:meshes}},get upfold(){return upfold},get lowerFold(){return lowerFold},get progress(){return progress},get slope(){return inclineReview.active?inclineReview.angle:slope},get standing(){return standing},get person(){return person},capture(){renderer.render(scene,camera);return renderer.domElement.toDataURL('image/webp',.95)},captureSize(w,h){const old=renderer.getSize(new T.Vector2()),pixel=renderer.getPixelRatio();renderer.setPixelRatio(1);renderer.setSize(w,h,false);camera.aspect=w/h;fit();const data=renderer.domElement.toDataURL('image/webp',.95);renderer.setPixelRatio(pixel);renderer.setSize(old.x,old.y,false);camera.aspect=old.x/old.y;fit();return data}};
+ window.productReview.incline=()=>inclineReview.status();window.productReview.captureIncline=(view,w,h)=>inclineReview.capture(view,w,h);
  window.productReview.incline=()=>inclineReview.status();window.productReview.captureIncline=(view,w,h)=>inclineReview.capture(view,w,h);
  window.addEventListener('message',e=>{if(e.source!==parent||e.origin!==location.origin)return;if(e.data?.type==='lijiujia-pose')setPose(e.data.pose||{})});
  $('loading').hidden=true;const q=new URLSearchParams(location.search);setPose(q.get('fold')==='1'?{progress:1}:q.has('upfold')?{progress:.32}:{});resize();renderer.setAnimationLoop(()=>{controls.update();renderer.render(scene,camera)});if(parent!==window)parent.postMessage({type:'lijiujia-ready'},location.origin);

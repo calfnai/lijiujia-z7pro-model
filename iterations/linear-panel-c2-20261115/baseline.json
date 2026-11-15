@@ -1,0 +1,15 @@
+{
+  "product": "linear",
+  "selected": "C2",
+  "status": "current working baseline selected by user; additional option pending user image",
+  "image": "../panel-redesign-v03-20261115/C2.png",
+  "rejectedCurrentOptions": [
+    "C1",
+    "C3"
+  ],
+  "useFor": [
+    "native model appearance",
+    "source-preserving render",
+    "AI reference material"
+  ]
+}
