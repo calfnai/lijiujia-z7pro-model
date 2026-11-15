@@ -19,3 +19,14 @@ body{background:#dededb;color:#111;font-family:Arial,"PingFang SC","Source Han S
 }
 
 .photo-overview .overview-promise{font-size:22px;line-height:1.4;color:#111;margin:0}
+
+/* Xinghu lineage: original pages remain complete and zoomable. */
+.xinghu-lineage .content{display:grid;grid-template-columns:minmax(0,1050px) 1fr;gap:38px;align-items:center}
+.xinghu-lineage figure{height:100%;justify-content:center}
+.xinghu-lineage .zoom{flex:0 1 auto;aspect-ratio:16/9}
+.xinghu-lineage figcaption{font-size:15px;color:#808080}
+.xinghu-lineage aside{border-left:1px solid #bbb;padding-left:28px}
+.xinghu-lineage aside .eyebrow{font-size:14px;letter-spacing:.05em}
+.xinghu-lineage aside h2{font-size:34px;line-height:1.35;margin:20px 0 24px}
+.xinghu-lineage aside p{font-size:22px;line-height:1.65;margin-top:16px;color:#333}
+.xinghu-lineage aside .lineage-status{font-size:17px;color:#808080;margin-top:24px}
