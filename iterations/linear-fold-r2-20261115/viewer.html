@@ -54,6 +54,8 @@
  let lo=deg(60),hi=deg(90);for(let i=0;i<45;i++){const mid=(lo+hi)/2;if(contactDifference(mid)>0)hi=mid;else lo=mid}const standAngle=(lo+hi)/2;
  function supportHeight(theta){const s=Math.sin(theta),c=Math.cos(theta);let min=Infinity;body.updateMatrixWorld(true);const localBody=body.matrixWorld.clone().invert();for(const mesh of meshes){if(!mesh.visible)continue;const a=mesh.geometry.attributes.position,m=localBody.clone().multiply(mesh.matrixWorld);for(let i=0;i<a.count;i++){const v=new T.Vector3().fromBufferAttribute(a,i).applyMatrix4(m);min=Math.min(min,s*v.x+c*v.y)}}return min}
  const standMin=(()=>{postPivot.rotation.z=deg(LOWER_FOLD_DEG);headPivot.rotation.z=deg(UPPER_FOLD_DEG);const v=supportHeight(standAngle);postPivot.rotation.z=0;headPivot.rotation.z=0;body.updateMatrixWorld(true);return v})();
+ const motionBox=new T.Box3();for(const q of [0,.25,.5,.75,1]){postPivot.rotation.z=deg(LOWER_FOLD_DEG)*q;headPivot.rotation.z=deg(UPPER_FOLD_DEG);retractLift(1);body.updateMatrixWorld(true);motionBox.union(new T.Box3().setFromObject(body,true))}postPivot.rotation.z=0;headPivot.rotation.z=0;retractLift(0);body.updateMatrixWorld(true);
+
  let view='left',slope=0,person=false,transparent=false;
  function limb(a,b,r,color){a=V(a);b=V(b);const m=new T.Mesh(new T.CylinderGeometry(r*.8,r,a.distanceTo(b),16),standard(color,0,.8));m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(V([0,1,0]),b.sub(a).normalize());human.add(m)}
  function ellipsoid(p,s,color){const m=new T.Mesh(new T.SphereGeometry(1,24,20),standard(color,0,.8));m.position.set(...p);m.scale.set(...s);human.add(m)}
@@ -76,14 +78,15 @@
  function updateFold(p){progress=Math.max(0,Math.min(1,p));standing=false;person=false;pose();renderer.render(scene,camera)}
  function stopFold(){playing=false;previousFrame=0}
  function tickFold(time){if(!playing)return;if(!previousFrame){previousFrame=time;return}const dt=Math.min((time-previousFrame)/1000,.1);previousFrame=time;const next=Math.min(1,progress+dt/7);if(next===1)stopFold();updateFold(next)}
- $('play-fold').onclick=()=>{if(playing){stopFold();pose();return}if(progress>=1||standing)updateFold(0);playing=true;previousFrame=0;pose()};
- $('fold-progress').oninput=e=>{stopFold();updateFold(+e.target.value/100)};
+ $('play-fold').onclick=()=>{if(playing){stopFold();pose();return}if(progress>=1||standing)updateFold(0);playing=true;previousFrame=0;pose();fit()};
+ $('fold-progress').oninput=e=>{stopFold();updateFold(+e.target.value/100);fit()};
  $('folded').onclick=()=>{stopFold();updateFold(1);fit()};$('unfolded').onclick=()=>{stopFold();updateFold(0);fit()};
  $('stand').onclick=()=>{stopFold();progress=1;standing=true;person=false;view='stand';pose();fit()};
- function bounds(){const b=new T.Box3().setFromObject(body,true);if(person)b.expandByObject(human);return b}
+ function bounds(){const b=new T.Box3().setFromObject(body,true);if(playing)b.union(motionBox);if(person)b.expandByObject(human);return b}
  function fit(){const box=bounds(),size=box.getSize(new T.Vector3()),center=box.getCenter(new T.Vector3()),direction=V(({left:[-1,.55,-1],right:[-1,.55,1],side:[0,.03,1],bottom:[-.25,-1,-.8],stand:[2,.12,1]})[view]);
   controls.target.copy(center);let distance=Math.max(size.y,size.x/camera.aspect,size.z)*.65/Math.tan(deg(camera.fov/2))+Math.max(size.x,size.z)*.55;direction.normalize();camera.near=.01;camera.far=30;camera.updateProjectionMatrix();
   for(let attempt=0;attempt<12;attempt++){camera.position.copy(center).addScaledVector(direction,distance);camera.lookAt(center);camera.updateMatrixWorld();let extent=0;for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){const p=V([x,y,z]).project(camera);extent=Math.max(extent,Math.abs(p.x),Math.abs(p.y))}if(extent<=.88)break;distance*=1.12}
+  let nearDistance=.05,farDistance=distance;for(let n=0;n<18;n++){const d=(nearDistance+farDistance)/2;camera.position.copy(center).addScaledVector(direction,d);camera.lookAt(center);camera.updateMatrixWorld();let e=0;for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){const p=V([x,y,z]).project(camera);e=Math.max(e,Math.abs(p.x),Math.abs(p.y));if(p.z< -1||p.z>1)e=Infinity}if(e>.88)nearDistance=d;else farDistance=d}camera.position.copy(center).addScaledVector(direction,farDistance);camera.lookAt(center);camera.updateMatrixWorld();
   controls.update();renderer.render(scene,camera);
  }
  function setPose(p={}){stopFold();slope=0;progress=Math.max(0,Math.min(1,p.progress||0));standing=!!p.stand;if(standing)progress=1;person=!standing&&progress===0&&!!p.human;view=['left','right','side','bottom','stand'].includes(p.angle)?p.angle:standing?'stand':'left';pose();fit()}
