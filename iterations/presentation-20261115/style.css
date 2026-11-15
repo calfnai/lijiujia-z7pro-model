@@ -30,3 +30,6 @@ body{background:#dededb;color:#111;font-family:Arial,"PingFang SC","Source Han S
 .xinghu-lineage aside h2{font-size:34px;line-height:1.35;margin:20px 0 24px}
 .xinghu-lineage aside p{font-size:22px;line-height:1.65;margin-top:16px;color:#333}
 .xinghu-lineage aside .lineage-status{font-size:17px;color:#808080;margin-top:24px}
+
+/* Continuous report: no grey gutters or thick page separators. */
+@media screen{body{background:#fff}.page-frame{margin-bottom:0}main{margin-top:calc(36.6667px * var(--scale,1));margin-bottom:82px}.process-overview .heading h1{font-size:48px}}
