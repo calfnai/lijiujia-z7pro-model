@@ -44,7 +44,23 @@
  }
  const buttonMaterial=standard(0x34383a,.35,.4);
  for(const side of [-1,1]){const b=new T.Mesh(new T.CylinderGeometry(.015,.015,.003,48),buttonMaterial);b.rotation.x=Math.PI/2;b.position.set(0,0,side*.362);upperPivot.add(b);b.userData.proposal='recessed release button appearance only'}
+
+ // User-confirmed standing finish, 2026-11-16. Original source vertices remain untouched.
+ const standingSilver=standard(0xc2c3bf,.72,.30),standingRed=standard(0xc91518,.25,.36);
+ const beforeStandingFinish=new Map();
+ const lowerCover=sourceMap.get('#o1.70'),coverRanges=lowerCover.geometry;
+ const standingCover=[standingSilver,materials.dark];
+ coverRanges.clearGroups();coverRanges.addGroup(0,10917,0);coverRanges.addGroup(10917,12,1);coverRanges.addGroup(10929,coverRanges.index.count-10929,0);
+ function standingFinish(){
+  for(const m of meshes){const ref=m.userData.sourceRef;
+   const metal=ref==='#o1.70'||ref==='#o1.71'||ref.startsWith('#o1.66.1.');
+   if(!metal&&ref!=='#o1.2')continue;
+   if(!beforeStandingFinish.has(m))beforeStandingFinish.set(m,m.material);
+   m.material=standing?(ref==='#o1.2'?standingRed:ref==='#o1.70'?standingCover:standingSilver):beforeStandingFinish.get(m);
+  }
+ }
  function pose(){
+  standingFinish();
   upfold=UPPER_END*Math.min(progress/.32,1);lowerFold=LOWER_END*Math.max(0,(progress-.32)/.68);
   body.rotation.set(0,0,-deg(slope));body.position.set(0,0,0);if(slope){body.position.x=1.27*(1-Math.cos(deg(slope)));body.position.y=1.27*Math.sin(deg(slope));}upperPivot.rotation.z=deg(upfold);lowerPivot.rotation.z=deg(lowerFold);if(standing){body.rotation.z=Math.PI/2;body.updateMatrixWorld(true);const bb=new T.Box3().setFromObject(body,true);body.position.y=-bb.min.y;}body.updateMatrixWorld(true);
   $('review-fold').value=progress*100;$('review-fold-value').textContent=progress===0?'使用态':progress===1?'折平参考态':Math.round(progress*100)+'%';
