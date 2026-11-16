@@ -87,7 +87,7 @@
  /*GROUNDED_INCLINE_R2*/
  function installGroundedLift({T,slug,body,sourceMap,meshes,meta}){
  const cfg={linear:{frame:'#o1.60.',act:'#o1.62.',foot:'#o1.69'},origin:{frame:'#o1.66.',act:'#o1.69.',foot:'#o1.79'},xinghu:{frame:'#o1.66.',act:'#o1.68.',foot:'#o1.71'}}[slug],off=meta.sourceTransform,V=p=>new T.Vector3((p[0]+off.xOffsetMM)/1000,(p[1]+off.yOffsetMM)/1000,0),F=V([486.8715102,53.1434312]),A=V([199.408,70.247]),B=V([392.47,1.324]),axis=new T.Vector3(0,0,1);
- const frame=meshes.filter(m=>m.userData.sourceRef.startsWith(cfg.frame)||slug==='origin'&&['#o1.77','#o1.80'].includes(m.userData.sourceRef)),act=meshes.filter(m=>m.userData.sourceRef.startsWith(cfg.act)),wheels=frame.filter(m=>[2,3,12,13].some(i=>m.userData.sourceRef===cfg.frame+i)),rod=sourceMap.get(cfg.act+'6'),ab=B.clone().sub(A),base=ab.length();
+ const frame=meshes.filter(m=>slug==='origin'?(m.userData.sourceRef.startsWith(cfg.frame)&&!['#o1.66.1.2','#o1.66.1.4'].includes(m.userData.sourceRef)||m.userData.sourceRef==='#o1.80'):m.userData.sourceRef.startsWith(cfg.frame)),act=meshes.filter(m=>m.userData.sourceRef.startsWith(cfg.act)),wheels=frame.filter(m=>[2,3,12,13].some(i=>m.userData.sourceRef===cfg.frame+i)),rod=sourceMap.get(cfg.act+'6'),ab=B.clone().sub(A),base=ab.length();
  const frameGroup=slug==='linear'?frame[0].parent:new T.Group(),actGroup=slug==='linear'?act[0].parent:new T.Group();
  if(slug!=='linear'){frameGroup.position.copy(F);actGroup.position.copy(A);body.add(frameGroup,actGroup);for(const m of frame){frameGroup.add(m);m.position.copy(F).negate()}for(const m of act){actGroup.add(m);m.position.copy(A).negate()}}
  const nativePositions=new Map([...frame,...act].map(m=>[m,m.position.clone()]));
@@ -148,7 +148,7 @@ function installInclineReview({T,body,belt,meshes,scene,renderer,human,fit,human
  let initialIncline=new URLSearchParams(location.search).get('incline')==='15';
  const inclineBaseSetPose=setPose;setPose=function(p={}){const requested=initialIncline||Number(p.slope)>0||p.state==='climb'||p.state==='lift';initialIncline=false;inclineBaseSetPose({...p,slope:0,state:requested?'normal':p.state});if(requested)inclineReview.apply(Number(p.slope)>0?Number(p.slope):15);};
  let inclineButton=$('review-climb');if(!inclineButton){inclineButton=document.createElement('button');inclineButton.id='review-climb';$('review-reset').before(inclineButton);}inclineButton.textContent='抬升态 · 跑台对地15°';inclineButton.disabled=false;inclineButton.textContent='抬升态 · 工作面对地15°';inclineButton.onclick=()=>setPose({slope:15,human:person,angle:view});
- const inclineNote=document.createElement('p');inclineNote.id='incline-reference-note';inclineNote.textContent='抬升态统一为跑台工作面与水平地面15°。下框架、轮组、横向底壳和包覆件作为同一总成展开，轮组保持接地；当前为装配姿态研究，连续扫掠、连接和承载仍待核验。';inclineButton.after(inclineNote);
+ const inclineNote=document.createElement('p');inclineNote.id='incline-reference-note';inclineNote.textContent='抬升态统一为跑台工作面与水平地面15°。机底托盘与轴套随整机固定，U形抬升架与轮组沿原轴展开，轮组保持接地；当前为装配姿态研究，连续扫掠、连接和承载仍待核验。';inclineButton.after(inclineNote);
  /*END_GROUNDED_INCLINE_R2*/
  /*ORIGIN_PAGE_CONTROLS*/
 // Reuse the native pose and grounded-lift solvers; controls describe different axes.
