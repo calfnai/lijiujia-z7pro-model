@@ -13,7 +13,7 @@
 <dialog id="lightbox" aria-label="图片放大查看"><div class="lightbox-bar"><span id="lightbox-title"></span><div><button id="zoom-out" aria-label="缩小">−</button><button id="zoom-in" aria-label="放大">＋</button><button id="close-lightbox">关闭 ×</button></div></div><div id="lightbox-scroll"><img id="lightbox-image" alt=""></div><p>点击加减放大；放大后可滚动查看局部。</p></dialog>
 <script>const PRODUCT={"name": "\u51cc\u5e8f", "model": "https://calfnai.github.io/lijiujia-z7pro-model/iterations/linear/model.html?rev=linear-incline-animation-20261117", "fold": "https://calfnai.github.io/lijiujia-z7pro-model/iterations/linear/model.html?rev=linear-incline-animation-20261117"},$=id=>document.getElementById(id);
 function start(mode){const f=$('model-frame');$('model-error').hidden=true;$('motion-poster').hidden=true;f.hidden=false;f.src=PRODUCT.model+(mode==='incline'?'&incline=play':'');}
-$('start-incline').onclick=()=>{start('incline');$('motion').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})};
+$('start-incline').onclick=()=>{start('incline');$('model-frame').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})};
 $('start-model').onclick=start;$('retry-model').onclick=start;$('open-model').onclick=()=>{if(!$('model-frame').getAttribute('src'))start();$('motion').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})};
 if($('start-upfold'))$('start-upfold').onclick=()=>{const f=$('upfold-frame');f.hidden=false;if(!f.getAttribute('src'))f.src=PRODUCT.fold;f.scrollIntoView({block:'start'})};
 const lightbox=$('lightbox'),photo=$('lightbox-image');let zoom=1;
