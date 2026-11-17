@@ -170,18 +170,15 @@ function installInclineReview({T,body,belt,meshes,scene,renderer,human,fit,human
  for(let i=0;i<indices.count;i+=3){const a=new T.Vector3().fromBufferAttribute(pos,indices.getX(i)),b=new T.Vector3().fromBufferAttribute(pos,indices.getX(i+1)),c=new T.Vector3().fromBufferAttribute(pos,indices.getX(i+2));const n=b.clone().sub(a).cross(c.clone().sub(a)),area=n.length()/2;n.normalize();if(n.y<0)n.negate();if(n.y>.8&&(!best||area>best.area))best={area,n,a,b,c};}
  if(!best||Math.abs(best.n.z)>1e-5)throw Error('Cannot identify a longitudinal working belt plane');
  const localNormal=best.n.clone(),rearX=(()=>{let m=-Infinity;for(let i=0;i<pos.count;i++)m=Math.max(m,pos.getX(i));return m})();
- const floor=new T.Mesh(new T.PlaneGeometry(20,20),new T.MeshStandardMaterial({color:0xdfddd5,roughness:1,side:T.DoubleSide}));floor.rotation.x=-Math.PI/2;floor.position.y=-.001;floor.visible=false;floor.userData.reviewReference=true;scene.add(floor);
- const groundLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:0x7b8174,depthTest:false}));groundLine.visible=false;groundLine.renderOrder=20;groundLine.userData.reviewReference=true;scene.add(groundLine);
  let active=false;
- function clear(){active=false;floor.visible=false;groundLine.visible=false;lift.clear();}
+ function clear(){active=false;lift.clear();}
  function angle(){body.updateMatrixWorld(true);const n=localNormal.clone().applyMatrix3(new T.Matrix3().getNormalMatrix(belt.matrixWorld)).normalize();return Math.acos(Math.min(1,Math.abs(n.y)))*180/Math.PI;}
  function apply(degrees=15,refit=true){
   TARGET=Math.max(0,Math.min(15,Number(degrees)));
   // Solve native lift rotation against the same world floor as the rear body support.
   const theta=Math.PI/2-TARGET*Math.PI/180-Math.atan2(localNormal.y,localNormal.x);
   body.rotation.set(0,0,theta);body.position.set(rearX*(1-Math.cos(theta)),-rearX*Math.sin(theta),0);body.updateMatrixWorld(true);
-  let minY=Infinity,minX=Infinity,maxX=-Infinity;for(const m of meshes){if(!m.visible)continue;const p=m.geometry.attributes.position;for(let i=0;i<p.count;i++){const v=new T.Vector3().fromBufferAttribute(p,i).applyMatrix4(m.matrixWorld);minY=Math.min(minY,v.y);minX=Math.min(minX,v.x);maxX=Math.max(maxX,v.x);}}
-  lift.solve();body.updateMatrixWorld(true);active=true;floor.visible=true;groundLine.geometry.dispose();groundLine.geometry=new T.BufferGeometry().setFromPoints([new T.Vector3(minX-.12,0,.5),new T.Vector3(maxX+.12,0,.5)]);groundLine.visible=true;humanPose();if(refit)fit();
+  lift.solve();body.updateMatrixWorld(true);active=true;humanPose();if(refit)fit();
   const measured=angle();if(Math.abs(measured-TARGET)>1e-5)throw Error('Working belt angle differs from requested angle');
  }
  function capture(view='side',w=1800,h=1100){
