@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Ossby GEO",
+    "status": "同款已核对；官方白底折叠图720×720，iF原始细节图3840×2160",
+    "url": "https://ossby.com/en/product/ossby-geo-electric-folding-bicycle/",
+    "design": "ANIMA Design",
+    "material": "官网说明为植物基树脂与再生材料复合框架；浅灰外观不等于铝合金。",
+    "files": [
+      "ossby-geo-official-folded.jpg",
+      "ossby-geo-if-03.jpg",
+      "ossby-geo-if-04.jpg",
+      "ossby-geo-if-01.jpg",
+      "ossby-geo-if-05.jpg"
+    ],
+    "detailSource": "https://ifdesign.com/en/winner-ranking/project/ossby-geo/616071",
+    "assets": [
+      {
+        "file": "ossby-geo-official-folded.jpg",
+        "pixels": [
+          720,
+          720
+        ],
+        "sha256": "3bef95fc65ab342e5f7d9e6401313999dcbdfa43a20aa3c0adf3e190338a606b"
+      },
+      {
+        "file": "ossby-geo-if-03.jpg",
+        "pixels": [
+          3840,
+          2160
+        ],
+        "sha256": "577c052381ba7ab15f2407d79737376232244505bf339da6b9136641ad12f3a4"
+      },
+      {
+        "file": "ossby-geo-if-04.jpg",
+        "pixels": [
+          3840,
+          2160
+        ],
+        "sha256": "cd699b3bf1eae638f57bdd2365dffc05177858031cd9e8e5f9f3ac9d2449f12d"
+      },
+      {
+        "file": "ossby-geo-if-01.jpg",
+        "pixels": [
+          2160,
+          3840
+        ],
+        "sha256": "99aa5445d3210d61fe6bd4d534a23f2d2e1540471c19c25424c2d4438bfe55ad"
+      },
+      {
+        "file": "ossby-geo-if-05.jpg",
+        "pixels": [
+          3840,
+          2160
+        ],
+        "sha256": "12a918ee0d1921bade4dba87184c0e66fcad6d562929e0a5ac4abb4c7384a7a2"
+      }
+    ]
+  },
+  {
+    "name": "Braun Powerdrill 概念图",
+    "status": "同款完整图3840×3840；Pinterest同源大图，首发作者与正式量产型号未核实",
+    "url": "https://uk.pinterest.com/pin/braun-powerdrill--12244230224211083/",
+    "imageUrl": "https://i.pinimg.com/originals/a0/bc/82/a0bc82a492a4d54829fa20bdd7421404.jpg",
+    "material": "仅能从图判断白色平滑壳体与黑色边框、按键；具体树脂及工艺未获原作者证实。",
+    "files": [
+      "braun-powerdrill-original.jpg"
+    ],
+    "assets": [
+      {
+        "file": "braun-powerdrill-original.jpg",
+        "pixels": [
+          3840,
+          3840
+        ],
+        "sha256": "f822716eaf89afd55bc1e34f2e0160124010dd161c6234d5439ba7b0e5cebffc"
+      }
+    ]
+  }
+]
