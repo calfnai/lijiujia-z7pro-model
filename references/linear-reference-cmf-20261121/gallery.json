@@ -1,0 +1,152 @@
+[
+  {
+    "file": "ossby-geo-if-03.jpg",
+    "title": "前部节点 · 把横／折角／转轴",
+    "source": "https://ifdesign.com/en/winner-ranking/project/ossby-geo/616071",
+    "pixels": [
+      3840,
+      2160
+    ],
+    "sha256": "577c052381ba7ab15f2407d79737376232244505bf339da6b9136641ad12f3a4"
+  },
+  {
+    "file": "ossby-geo-if-04.jpg",
+    "title": "后部节点 · 座管／尾灯／内圆角",
+    "source": "https://ifdesign.com/en/winner-ranking/project/ossby-geo/616071",
+    "pixels": [
+      3840,
+      2160
+    ],
+    "sha256": "cd699b3bf1eae638f57bdd2365dffc05177858031cd9e8e5f9f3ac9d2449f12d"
+  },
+  {
+    "file": "ossby-230315_Detalle_2.png",
+    "title": "车架下部 · 连杆与前叉",
+    "source": "https://ossby.com/en/product/ossby-geo-electric-folding-bicycle/",
+    "pixels": [
+      2560,
+      1440
+    ],
+    "sha256": "bc3cb6dc60b9656a0ea314cf396b10ad3458f5e9cb6f9017dc3f2efa266fc388"
+  },
+  {
+    "file": "ossby-230315_Detalle_3.png",
+    "title": "后轮与传动 · 黑灰材质分区",
+    "source": "https://ossby.com/en/product/ossby-geo-electric-folding-bicycle/",
+    "pixels": [
+      2560,
+      1440
+    ],
+    "sha256": "9ee291d17dd036bc8c6548d090300dcfe8e999d5cdc368275e1a238011593d42"
+  },
+  {
+    "file": "ossby-230315_Detalle_4.png",
+    "title": "后肩与尾灯 · 平面转折",
+    "source": "https://ossby.com/en/product/ossby-geo-electric-folding-bicycle/",
+    "pixels": [
+      2560,
+      1440
+    ],
+    "sha256": "b00c17c9f87700b99f8379713d0a3eee2c9106637a8d3560928595c4f00d5ccf"
+  },
+  {
+    "file": "ossby-230315_Detalle_5.png",
+    "title": "上部框架 · 管件与平板对比",
+    "source": "https://ossby.com/en/product/ossby-geo-electric-folding-bicycle/",
+    "pixels": [
+      2560,
+      1440
+    ],
+    "sha256": "4c7b528adb4cce612ae00566563c061515e56f702e21e9962963cdc3dcf6d0be"
+  },
+  {
+    "file": "ossby-230315_Detalle_6.png",
+    "title": "脚踏与链轮 · 连接关系",
+    "source": "https://ossby.com/en/product/ossby-geo-electric-folding-bicycle/",
+    "pixels": [
+      2560,
+      1440
+    ],
+    "sha256": "d4babcbd9ee670cba41ec69387edcd078aaabeea8fc59e65f78139e3a3eea886"
+  },
+  {
+    "file": "ossby-frenos-de-disco-ossby-geo-bici-plegable.png",
+    "title": "前轮 · 刹车／挡泥板／前叉",
+    "source": "https://ossby.com/en/product/ossby-geo-electric-folding-bicycle/",
+    "pixels": [
+      1920,
+      1080
+    ],
+    "sha256": "cfa8deaea161c1309f2e84dcd1dfa29726e5910640034431a7bc6a6e903c4e6c"
+  },
+  {
+    "file": "ossby-anima-ossby-01-scaled.webp",
+    "title": "前部近景 · 握把与框架边缘",
+    "source": "https://anima.es/en/project/ossby/",
+    "pixels": [
+      2560,
+      1462
+    ],
+    "sha256": "a38adf6366645fa2c377b2161399ac041568dc3b10d8ccd232bfb46bcd5d9e6e"
+  },
+  {
+    "file": "ossby-anima-ossby-03-scaled.webp",
+    "title": "折叠状态 · 推行与比例",
+    "source": "https://anima.es/en/project/ossby/",
+    "pixels": [
+      2560,
+      1462
+    ],
+    "sha256": "44160335fc6b19140f8f2ded5283ae36ddf550f87fe046855d84265497a99405"
+  },
+  {
+    "file": "ossby-anima-ossby-04-scaled.webp",
+    "title": "展开／折叠 · 使用场景",
+    "source": "https://anima.es/en/project/ossby/",
+    "pixels": [
+      2560,
+      1462
+    ],
+    "sha256": "d07a238d578c1d186f8c4b84693f45005413e639945eceaa18ca6750521faa2a"
+  },
+  {
+    "file": "ossby-geo-if-05.jpg",
+    "title": "完整侧向 · 车架与轮组比例",
+    "source": "https://ifdesign.com/en/winner-ranking/project/ossby-geo/616071",
+    "pixels": [
+      3840,
+      2160
+    ],
+    "sha256": "12a918ee0d1921bade4dba87184c0e66fcad6d562929e0a5ac4abb4c7384a7a2"
+  },
+  {
+    "file": "ossby-geo-if-01.jpg",
+    "title": "整车三分之四 · 框架体量",
+    "source": "https://ifdesign.com/en/winner-ranking/project/ossby-geo/616071",
+    "pixels": [
+      2160,
+      3840
+    ],
+    "sha256": "99aa5445d3210d61fe6bd4d534a23f2d2e1540471c19c25424c2d4438bfe55ad"
+  },
+  {
+    "file": "ossby-geo-official-folded.jpg",
+    "title": "官方折叠白底图 · 720像素",
+    "source": "https://ossby.com/en/product/ossby-geo-electric-folding-bicycle/",
+    "pixels": [
+      720,
+      720
+    ],
+    "sha256": "3bef95fc65ab342e5f7d9e6401313999dcbdfa43a20aa3c0adf3e190338a606b"
+  },
+  {
+    "file": "braun-powerdrill-original.jpg",
+    "title": "Braun Powerdrill完整同源图",
+    "source": "https://uk.pinterest.com/pin/braun-powerdrill--12244230224211083/",
+    "pixels": [
+      3840,
+      3840
+    ],
+    "sha256": "f822716eaf89afd55bc1e34f2e0160124010dd161c6234d5439ba7b0e5cebffc"
+  }
+]
