@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-21",
+  "files": [
+    {
+      "file": "screen-01-original.png",
+      "pixels": [
+        1280,
+        319
+      ],
+      "sha256": "02ef6f1b950289210a9bb2d07464dcaad8bb314ac1acf3d895cec060f051a1fe",
+      "kind": "user appointed original screen"
+    },
+    {
+      "file": "screen-02-original.png",
+      "pixels": [
+        2508,
+        627
+      ],
+      "sha256": "c88437335acd2878c242f6908c4e201cdd76183106f5b629f75e5f2c9a4fc758",
+      "kind": "user appointed original screen"
+    },
+    {
+      "file": "uok-one-key-original.gif",
+      "pixels": [
+        790,
+        996
+      ],
+      "sha256": "db7c656fd697d110798e90a9c44faf306fdecee78691e701702020f0c050a69d",
+      "kind": "user linked original GIF"
+    },
+    {
+      "file": "user-junction-original.png",
+      "pixels": [
+        542,
+        302
+      ],
+      "sha256": "57b20789de19a354d7edcfb3007b6972dd0e56967aa552bb6458f185d7b462e0",
+      "kind": "user supplied original"
+    },
+    {
+      "file": "z7pro-product-original.png",
+      "pixels": [
+        1500,
+        3000
+      ],
+      "sha256": "58b2e9b6235f90b43b75f8c85da99fa518b861294fefbf9849f1699aaaa1e923",
+      "kind": "user supplied original"
+    }
+  ],
+  "uokSource": "https://img.alicdn.com/imgextra/i1/2219907827972/O1CN01jRLAD9ZF9ID1bRus_!!2219907827972.gif",
+  "z7Dimensions": "Supplied original product artwork only; not the upgraded Linear target dimensions."
+}
