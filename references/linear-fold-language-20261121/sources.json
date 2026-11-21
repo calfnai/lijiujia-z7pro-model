@@ -54,6 +54,15 @@
       ],
       "sha256": "d1c7fafc8537d99f0f5e2742e2861bf24bbfab0165cc09aab834e0ec41a82260",
       "kind": "user supplied original annotation; flat head, independent display angle, central underside safety key"
+    },
+    {
+      "file": "user-safety-face-rounded-grip-original.png",
+      "pixels": [
+        1018,
+        488
+      ],
+      "sha256": "737a5b21685a432c0e0405dfa4595e0d65b9721a40eef1b60c9a9efb858b5e85",
+      "kind": "user supplied original; safety key and cord moved to runner-facing upper center band; grips rounded square"
     }
   ],
   "uokSource": "https://img.alicdn.com/imgextra/i1/2219907827972/O1CN01jRLAD9ZF9ID1bRus_!!2219907827972.gif",
