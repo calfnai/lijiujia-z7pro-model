@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="model-revision" content="852690e2b3b06f1e0e2e6be29a377d422bf8fece601d8aeaa9a43f50666c9691">
+  <title>凌序 · 同事新版 3D</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#edf0f2;color:#273238;font:14px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}#viewport{position:fixed;inset:0 245px 0 0}canvas{display:block;width:100%;height:100%;touch-action:none}header{position:fixed;top:26px;left:30px;pointer-events:none}header small{color:#6c7b82;letter-spacing:.12em}h1{font-size:26px;font-weight:550;letter-spacing:.03em;margin:5px 0}header p{color:#65757d;margin:0}.controls{position:fixed;right:24px;top:24px;width:218px;padding:17px;background:#ffffffed;border:1px solid #d9e0e4;border-radius:14px;box-shadow:0 8px 28px #2434400a}.controls strong{font-size:13px;color:#64747d;font-weight:500}nav{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0 16px}button{font:inherit;cursor:pointer;color:inherit;background:white;border:1px solid #d6dfe3;padding:8px;border-radius:7px}button:hover{border-color:#8da5b1}button[aria-pressed="true"]{color:#fff;background:#3a5565;border-color:#3a5565}label{display:flex;gap:8px;align-items:center;margin:10px 0;color:#52646d}input{accent-color:#3a5565}#reset{width:100%;margin-top:6px}#part{font-size:12px;color:#60737e;min-height:20px;margin:12px 0 0}.hint{position:fixed;left:30px;bottom:23px;color:#657780;font-size:12px}.hint p{margin:2px 0}#loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#edf0f2;z-index:5}#loading[hidden]{display:none}#loading div{padding:24px 32px;border:1px solid #d6dfe3;background:white;border-radius:12px}#loading button{display:block;margin-top:12px}#error{max-width:480px;overflow-wrap:anywhere;color:#a24d3c}button:focus-visible,input:focus-visible{outline:3px solid #7cabbf;outline-offset:3px}@media(max-width:700px){#viewport{inset:70px 0 135px}header{left:18px;top:18px}h1{font-size:22px}.controls{top:auto;right:12px;left:12px;bottom:12px;width:auto;padding:12px 14px}.controls strong{display:none}nav{grid-template-columns:repeat(6,1fr);gap:5px;margin:0 0 8px}button{font-size:12px;padding:8px 4px}.options{display:flex;align-items:center;gap:18px}.options label{margin:0;font-size:12px}#reset{width:auto;margin:0 0 0 auto;padding:6px 15px}#part{display:none}.hint{left:18px;bottom:139px;font-size:11px}.hint p+p{display:none}}
+  </style>
+  <script type="importmap">{"imports":{"three":"../../vendor/three.module.js"}}</script>
+</head>
+<body>
+  <div id="viewport" aria-label="可旋转缩放的新版跑步机模型"></div>
+  <header><small>LINEAR / 2026.11.22</small><h1>凌序 · 同事新版</h1><p>头部缩短版 · 文件保存姿态</p></header>
+  <aside class="controls" aria-label="模型查看控制">
+    <strong>查看角度</strong>
+    <nav>
+      <button data-view="front45" aria-pressed="true">前45°</button><button data-view="rear45" aria-pressed="false">后45°</button>
+      <button data-view="side" aria-pressed="false">侧面</button><button data-view="front" aria-pressed="false">正前</button>
+      <button data-view="top" aria-pressed="false">俯视</button><button data-view="bottom" aria-pressed="false">机底</button>
+    </nav>
+    <div class="options"><label><input id="edges" type="checkbox" checked>显示轮廓</label><label><input id="transparent" type="checkbox">透明查看</label><button id="reset">复位</button></div>
+    <p id="part">双击零件可近看</p>
+  </aside>
+  <div class="hint"><p>拖动旋转 · 滚轮缩放 · 右键平移</p><p>支架位置按源文件展示；插拔、承载与推移效果需结合实物核验。</p></div>
+  <div id="loading" role="status"><div><span id="message">正在加载新版模型…</span><p id="error" hidden></p><button id="retry" hidden>重新加载</button></div></div>
+  <script type="module" src="viewer.js?v=852690e2b3b0"></script>
+</body>
+</html>
