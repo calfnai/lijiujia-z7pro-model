@@ -1,0 +1,35 @@
+{
+  "full": {
+    "source": "references/linear-colleague-20261121/方案四-全域-给gg(1).STEP",
+    "sha256": "dca94de2afd4bafecb35037baf74ac7bd685e0e2f68ba5f2c239792507c0c0b6",
+    "vertices": 191768,
+    "triangles": 243453,
+    "indexOffset": 2301216,
+    "indices": 730359,
+    "occurrences": 73,
+    "missingFaces": 0,
+    "toleranceMM": 0.8
+  },
+  "short": {
+    "source": "references/linear-colleague-20261122/方案四-头缩短-给柳-11.22.STEP",
+    "sha256": "36804c84b99b75895557f8781e27b46fb18726dab1af737d2987acab8e9823a9",
+    "vertices": 276884,
+    "triangles": 334653,
+    "indexOffset": 3322608,
+    "indices": 1003959,
+    "occurrences": 142,
+    "missingFaces": 0,
+    "toleranceMM": 0.8
+  },
+  "full1123": {
+    "source": "references/linear-colleague-20261123/方案四-全域-11.23(1).STEP",
+    "sha256": "079f961c28f29d94227c0111da8b8e6f5fe09a88422fac1181862af465401702",
+    "vertices": 216869,
+    "triangles": 270039,
+    "indexOffset": 2602428,
+    "indices": 810117,
+    "occurrences": 72,
+    "missingFaces": 3,
+    "toleranceMM": 0.8
+  }
+}
