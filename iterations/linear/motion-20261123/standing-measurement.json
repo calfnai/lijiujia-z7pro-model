@@ -1,0 +1,41 @@
+{
+  "source": "方案四-全域-11.23(1).STEP",
+  "sha256": "079f961c28f29d94227c0111da8b8e6f5fe09a88422fac1181862af465401702",
+  "method": "Native STEP BRep exact bounds after rigid rotation; upright body fixed at 90 degrees",
+  "liftAxisMM": [
+    498.9509206873124,
+    73.03293880345443,
+    0
+  ],
+  "sideWheelFrontXMM": {
+    "#o1.12": 90.939847526519,
+    "#o1.13": 90.939847526519
+  },
+  "groundDatumSourceXMM": 90.939847526519,
+  "liftAngleFromSourceDegrees": 5.943005423651613,
+  "sourceFoldLiftDegrees": -9.12,
+  "changeFromFoldDegrees": 15.063005423651612,
+  "sourceFrameWheelFrontXMM": {
+    "#o1.6.2": 82.34304235280439,
+    "#o1.6.3": 82.34304235280439,
+    "#o1.6.10": 82.34304235280439,
+    "#o1.6.11": 82.34304235280439
+  },
+  "standingFrameWheelFrontXMM": {
+    "#o1.6.2": 90.93984752651836,
+    "#o1.6.3": 90.93984752651836,
+    "#o1.6.10": 90.93984752651835,
+    "#o1.6.11": 90.93984752651835
+  },
+  "sideWheelContactDeltaMM": {
+    "#o1.12": 0.0,
+    "#o1.13": 0.0
+  },
+  "frameWheelContactDeltaMM": {
+    "#o1.6.2": -6.394884621840902e-13,
+    "#o1.6.3": -6.394884621840902e-13,
+    "#o1.6.10": -6.536993168992922e-13,
+    "#o1.6.11": -6.536993168992922e-13
+  },
+  "omittedFromGroundDatum": "Detachable power cord is not a rigid standing support"
+}
